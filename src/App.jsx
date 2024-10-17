@@ -10,7 +10,6 @@ function App() {
         <>
             <BrowserRouter>
                 <AppRoutes />
-                {'123'}
             </BrowserRouter>
         </>
     );
