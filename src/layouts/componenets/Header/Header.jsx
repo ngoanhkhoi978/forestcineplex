@@ -4,7 +4,7 @@ import images from '~/assets/images';
 import Search from '~/layouts/componenets/Header/Search/Search.jsx';
 import classNames from 'classnames';
 import { CaretDownOutlined } from '@ant-design/icons';
-import Menu from '~/layouts/componenets/Header/Menu/Menu.jsx';
+import Navigation from '~/layouts/componenets/Header/Navigation/Navigation.jsx';
 import Brand from '~/layouts/componenets/Header/Brand/Brand.jsx';
 import useScroll from '~/hooks/useScroll.js';
 
@@ -21,7 +21,7 @@ function Header() {
             <div className="container mx-auto flex h-full items-center justify-between p-2">
                 <div className="flex items-center">
                     <Brand />
-                    <Menu />
+                    <Navigation />
                 </div>
                 <div className="flex">
                     <Search />

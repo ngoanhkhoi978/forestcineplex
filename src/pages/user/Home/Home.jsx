@@ -1,4 +1,4 @@
-import Billboard from '~/pages/Home/Billboard/Billboard.jsx';
+import Billboard from '~/pages/user/Home/Billboard/Billboard.jsx';
 
 function Home() {
     return (
