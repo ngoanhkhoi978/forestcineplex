@@ -7,10 +7,12 @@ function Navigation() {
     const location = useLocation();
 
     return (
-        <ul className="flex items-center space-x-1">
+        <ul className="flex items-center space-x-3">
             {navigationItems.map((menuItem) => (
                 <li
-                    className={location.pathname === menuItem.path ? 'text-white' : 'text-[#e5e5e5]'}
+                    className={
+                        location.pathname === menuItem.path ? 'border-b-2 border-gray-200 text-white' : 'text-[#e5e5e5]'
+                    }
                     key={menuItem.path}
                 >
                     {<Link to={menuItem.path}>{t(menuItem.title)}</Link>}

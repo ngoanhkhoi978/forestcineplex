@@ -1,0 +1,27 @@
+{
+  "movies": [
+    {
+      "title": {
+        "en": "Queen of Tears",
+        "vi": "Nữ Hoàng Nước Mắt"
+      },
+      "description": {
+        "en": "A queen in a mall and her husband in a small town cope with a marital crisis, but then love begins to bloom again in a miraculous way.",
+        "vi": "Nữ hoàng trung tâm bách hóa và người chồng ở thị trấn nhỏ xoay xở với khủng hoảng hôn nhân, nhưng rồi tình yêu bắt đầu nảy nở trở lại một cách kỳ diệu."
+      },
+      "actors": ["Kim Soo Hyun", "Kim Ji Won", "Park Sung Hoon"],
+      "type": ["korea", "tv-comedy","romatic-tv-comedy"],
+      "episodes": [
+        {
+          "episode": 1,
+          "during": "77ph",
+          "description": {
+            "en": "Baek Hyun Woo and Hong Hae In have a tense relationship, both at home and at work. But while deciding his future, Hyun Woo visited his family.",
+            "vi": "Baek Huyn Woo và Hong Hae In xoay xở với mối quan hệ căng thẳng, cả ở nhà lẫn chỗ làm. Nhưng trong khi quyết định tương lai của mình, Hyun Woo đến thăm gia đình anh."
+          },
+          "image": ""
+        }
+      ]
+    }
+  ]
+}

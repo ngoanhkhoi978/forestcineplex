@@ -10,6 +10,7 @@ i18n.use(initReactI18next).init({
                 'tv shows': 'TV Shows',
                 movies: 'Movies',
                 'my list': 'My List',
+                news: 'News',
             },
         },
         vi: {
@@ -19,6 +20,7 @@ i18n.use(initReactI18next).init({
                 'tv shows': 'Phim truyền hình',
                 movies: 'Phim',
                 'my list': 'Danh sách của tôi',
+                news: 'Tin tức',
             },
         },
     },

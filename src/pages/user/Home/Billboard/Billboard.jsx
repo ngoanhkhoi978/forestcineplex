@@ -1,7 +1,9 @@
+import images from '~/assets/images/index.js';
+
 function Billboard() {
     return (
         <>
-            <img className="w-full" src="../../../../assets/images/trailer-test.jpg" alt="" />
+            <img className="w-full" src={images.imageBillboard} alt="" />
         </>
     );
 }
