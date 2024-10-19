@@ -120,17 +120,17 @@ export function ExpandableCardDemo() {
                     </div>
                 ) : null}
             </AnimatePresence>
-            <ul className="mx-auto grid w-full max-w-2xl grid-cols-1 items-start gap-4 md:grid-cols-2">
+            <ul className="mx-auto grid w-full grid-cols-5 items-start gap-1">
                 {cards.map((card, index) => (
                     <motion.div
                         layoutId={`card-${card.title}-${id}`}
                         key={card.title}
                         onClick={() => setActive(card)}
-                        className="flex cursor-pointer flex-col rounded-xl p-4 hover:bg-neutral-50 dark:hover:bg-neutral-800"
+                        className="flex cursor-pointer flex-col rounded-xl hover:shadow"
                     >
                         <div className="flex w-full flex-col gap-4">
                             <motion.div layoutId={`image-${card.title}-${id}`}>
-                                <img src={images.imageMovie} alt="" />
+                                <img className="w-full rounded-md" src={images.imageMovie} alt="" />
                             </motion.div>
                             <div className="flex flex-col items-center justify-center">
                                 <motion.h3
@@ -139,12 +139,12 @@ export function ExpandableCardDemo() {
                                 >
                                     {card.title}
                                 </motion.h3>
-                                <motion.p
-                                    layoutId={`description-${card.description}-${id}`}
-                                    className="text-center text-base text-neutral-600 md:text-left dark:text-neutral-400"
-                                >
-                                    {card.description}
-                                </motion.p>
+                                {/*<motion.p*/}
+                                {/*    layoutId={`description-${card.description}-${id}`}*/}
+                                {/*    className="text-center text-base text-neutral-600 md:text-left dark:text-neutral-400"*/}
+                                {/*>*/}
+                                {/*    {card.description}*/}
+                                {/*</motion.p>*/}
                             </div>
                         </div>
                     </motion.div>
@@ -209,8 +209,8 @@ const cards = [
         },
     },
     {
-        description: 'Babbu Maan',
-        title: 'Mitran Di Chhatri',
+        description: 'Babbu Maandf',
+        title: 'Mitran Di Chhatrdfi',
         src: 'https://assets.aceternity.com/demos/babbu-maan.jpeg',
         ctaText: 'Visit',
         ctaLink: 'https://ui.aceternity.com/templates',
@@ -264,31 +264,26 @@ const cards = [
                     His songs often feature a blend of contemporary and traditional Indian music, capturing the essence
                     of modern Bollywood soundtracks. With a career spanning over two decades, Himesh Reshammiya has
                     released numerous hit albums and singles that have garnered him a massive fan following both in
-                    India and abroad. Himesh Reshammiya, a renowned Indian music composer, singer, and actor, is
-                    celebrated for his distinctive voice and innovative compositions. Born in Mumbai, India, he has
-                    become a prominent figure in the Bollywood music industry. <br /> <br />
-                    His songs often feature a blend of contemporary and traditional Indian music, capturing the essence
-                    of modern Bollywood soundtracks. With a career spanning over two decades, Himesh Reshammiya has
-                    released numerous hit albums and singles that have garnered him a massive fan following both in
-                    India and abroad. Himesh Reshammiya, a renowned Indian music composer, singer, and actor, is
-                    celebrated for his distinctive voice and innovative compositions. Born in Mumbai, India, he has
-                    become a prominent figure in the Bollywood music industry. <br /> <br />
-                    His songs often feature a blend of contemporary and traditional Indian music, capturing the essence
-                    of modern Bollywood soundtracks. With a career spanning over two decades, Himesh Reshammiya has
-                    released numerous hit albums and singles that have garnered him a massive fan following both in
-                    India and abroad. Himesh Reshammiya, a renowned Indian music composer, singer, and actor, is
-                    celebrated for his distinctive voice and innovative compositions. Born in Mumbai, India, he has
-                    become a prominent figure in the Bollywood music industry. <br /> <br />
-                    His songs often feature a blend of contemporary and traditional Indian music, capturing the essence
-                    of modern Bollywood soundtracks. With a career spanning over two decades, Himesh Reshammiya has
-                    released numerous hit albums and singles that have garnered him a massive fan following both in
-                    India and abroad. Himesh Reshammiya, a renowned Indian music composer, singer, and actor, is
-                    celebrated for his distinctive voice and innovative compositions. Born in Mumbai, India, he has
-                    become a prominent figure in the Bollywood music industry. <br /> <br />
-                    His songs often feature a blend of contemporary and traditional Indian music, capturing the essence
-                    of modern Bollywood soundtracks. With a career spanning over two decades, Himesh Reshammiya has
-                    released numerous hit albums and singles that have garnered him a massive fan following both in
-                    India and abroad.
+                </p>
+            );
+        },
+    },
+    {
+        description: 'Babbu Maan123',
+        title: 'Mitran Di Chhatri',
+        src: 'https://assets.aceternity.com/demos/babbu-maan.jpeg',
+        ctaText: 'Visit',
+        ctaLink: 'https://ui.aceternity.com/templates',
+        content: () => {
+            return (
+                <p>
+                    Babu Maan, a legendary Punjabi singer, is renowned for his soulful voice and profound lyrics that
+                    resonate deeply with his audience. Born in the village of Khant Maanpur in Punjab, India, he has
+                    become a cultural icon in the Punjabi music industry. <br /> <br />
+                    His songs often reflect the struggles and triumphs of everyday life, capturing the essence of
+                    Punjabi culture and traditions. With a career spanning over two decades, Babu Maan has released
+                    numerous hit albums and singles that have garnered him a massive fan following both in India and
+                    abroad.
                 </p>
             );
         },

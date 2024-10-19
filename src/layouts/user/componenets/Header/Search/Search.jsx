@@ -2,16 +2,29 @@ import { SearchOutlined } from '@ant-design/icons';
 import { useRef, useState, useCallback, useEffect } from 'react';
 import classNames from 'classnames';
 import useDebounce from '~/hooks/useDebounce.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { searchChange } from '~/features/search/searchSlice.js';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 function Search() {
-    const [inputValue, setInputValue] = useState('');
     const [isFocused, setIsFocused] = useState(false);
     const inputRef = useRef();
-    const debounced = useDebounce(inputValue, 500);
+    const dispatch = useDispatch();
+    const searchValue = useSelector((state) => state.search.value);
+    const debounced = useDebounce(searchValue, 500);
+    const navigative = useNavigate();
+    const [t] = useTranslation();
 
     useEffect(() => {
         console.log(debounced);
     }, [debounced]);
+
+    useEffect(() => {
+        if (searchValue === '') {
+            navigative('/');
+        }
+    }, [searchValue]);
 
     const handleInputFocus = useCallback(() => {
         setIsFocused(true);
@@ -22,11 +35,11 @@ function Search() {
     }, []);
 
     const handleInputChange = useCallback((e) => {
-        setInputValue(e.target.value);
+        dispatch(searchChange(e.target.value));
+        navigative(`/search?q=${encodeURIComponent(e.target.value)}`);
     }, []);
 
     const handleButtonClick = useCallback(() => {
-        console.log('button');
         inputRef.current.focus();
         setIsFocused(true);
     }, []);
@@ -44,7 +57,7 @@ function Search() {
             className={classNames(
                 'flex min-w-14 rounded-xl border-none px-4 py-2 text-white placeholder-gray-400 opacity-90 transition-all duration-500 ease-in-out',
                 {
-                    'bg-black-75 w-64 ring-1 ring-green-100': isFocused,
+                    'w-64 bg-black-75 ring-1 ring-green-100': isFocused,
                     'w-0 bg-transparent': !isFocused,
                 },
             )}
@@ -61,12 +74,12 @@ function Search() {
             <input
                 className="w-0 grow border-0 bg-transparent ps-2 outline-none"
                 type="text"
-                placeholder={isFocused ? 'Tìm kiếm' : ''}
+                placeholder={isFocused ? t('search') : ''}
                 ref={inputRef}
                 onFocus={handleInputFocus}
                 onBlur={handleInputBlur}
                 onChange={handleInputChange}
-                value={inputValue}
+                value={searchValue}
             />
         </div>
     );

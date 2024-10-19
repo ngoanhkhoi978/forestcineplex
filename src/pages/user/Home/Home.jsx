@@ -5,7 +5,9 @@ function Home() {
     return (
         <div>
             <Billboard />
-            <ExpandableCardDemo />
+            <div className="container relative z-20 mx-auto mt-[-150px]">
+                <ExpandableCardDemo />
+            </div>
         </div>
     );
 }

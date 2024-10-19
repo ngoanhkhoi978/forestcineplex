@@ -10,8 +10,6 @@ function AccountMenu() {
     const handleMouseEnter = useCallback(() => setHovered(true), []);
     const handleMouseLeave = useCallback(() => setHovered(false), []);
 
-    console.log('render');
-
     return (
         <div
             className="flex cursor-pointer items-center space-x-1"

@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+
 function useOutsideClick(ref, callback) {
     useEffect(() => {
         const listener = (event) => {

@@ -7,9 +7,8 @@ function DefaultLayout({ children }) {
     return (
         <>
             <Header />
-            <div>{children}</div>
+            <div className="min-h-[5000px] bg-[#162b1b]">{children}</div>
             <Footer />
-            <div className="min-h-[2000px]"></div>
         </>
     );
 }

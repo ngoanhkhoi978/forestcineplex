@@ -11,7 +11,7 @@ function Header() {
 
     return (
         <header
-            className={classNames('h-header fixed end-0 start-0 top-0 transition-all duration-500', {
+            className={classNames('fixed end-0 start-0 top-0 z-40 h-header transition-all duration-500', {
                 'bg-[#162b1b]': isScrolled,
                 'bg-ct-header-gradient': !isScrolled,
             })}
@@ -21,12 +21,11 @@ function Header() {
                     <Brand />
                     <Navigation />
                 </div>
-                <div className="flex space-x-2">
+                <div className="flex space-x-4">
                     <Search />
                     <AccountMenu />
 
                     <BTNLanguage />
-                    <button type="submit"></button>
                 </div>
             </div>
         </header>
