@@ -1,10 +1,10 @@
-import Search from '~/layouts/user/componenets/Header/Search/Search.jsx';
+import Search from '~/layouts/user/DefaultLayout/Header/Search/Search.jsx';
 import classNames from 'classnames';
-import Navigation from '~/layouts/user/componenets/Header/Navigation/Navigation.jsx';
-import Brand from '~/layouts/user/componenets/Header/Brand/Brand.jsx';
+import Navigation from '~/layouts/user/DefaultLayout/Header/Navigation/Navigation.jsx';
+import Brand from '~/layouts/user/DefaultLayout/Header/Brand/Brand.jsx';
 import useScroll from '~/hooks/useScroll.js';
 import BTNLanguage from '~/components/BTNLanguage/BTNLanguage.jsx';
-import AccountMenu from '~/layouts/user/componenets/Header/AccountMenu/AccountMenu.jsx';
+import AccountMenu from '~/layouts/user/DefaultLayout/Header/AccountMenu/AccountMenu.jsx';
 
 function Header() {
     const isScrolled = useScroll();

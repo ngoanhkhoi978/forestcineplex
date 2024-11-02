@@ -1,5 +1,5 @@
 import navigationItems from './navigationItems.js';
-import NavigationItem from '~/layouts/user/componenets/Header/Navigation/NavigationItem.jsx';
+import NavigationItem from '~/layouts/user/DefaultLayout/Header/Navigation/NavigationItem.jsx';
 
 function Navigation() {
     return (

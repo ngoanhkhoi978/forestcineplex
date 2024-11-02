@@ -1,13 +1,13 @@
 import '~/index.css';
 import PropTypes from 'prop-types';
-import Header from '../componenets/Header/Header.jsx';
-import Footer from '../componenets/Footer/Footer.jsx';
+import Header from '~/layouts/user/DefaultLayout/Header/Header.jsx';
+import Footer from '~/layouts/user/DefaultLayout/Footer/Footer.jsx';
 
 function DefaultLayout({ children }) {
     return (
         <>
             <Header />
-            <div className="min-h-[5000px] bg-[#162b1b]">{children}</div>
+            <div className="bg-primary min-h-[5000px]">{children}</div>
             <Footer />
         </>
     );

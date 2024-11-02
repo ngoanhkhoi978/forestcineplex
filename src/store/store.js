@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import searchSlice from '~/features/search/searchSlice.js';
+import searchReducer from '~/features/search/searchSlice.js';
+import authenticatedReducer from '~/features/authenticated/authenticatedSlice.js';
 
 const store = configureStore({
     reducer: {
-        search: searchSlice,
+        search: searchReducer,
+        authenticated: authenticatedReducer,
     },
 });
 

@@ -1,11 +1,12 @@
 import images from '~/assets/images/index.js';
 import { useNavigate } from 'react-router-dom';
+import config from '~/config/index.js';
 
 function Brand() {
     const navigative = useNavigate();
 
     const handleOnClick = () => {
-        navigative('/');
+        navigative(config.routes.home);
     };
 
     return (

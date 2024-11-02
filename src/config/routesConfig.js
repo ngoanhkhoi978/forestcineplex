@@ -1,12 +1,14 @@
 const routesConfig = {
-    home: '/',
+    home: '/home',
     movies: '/movies',
     tvShows: '/tv-shows',
     myList: '/my-list',
     news: '/news',
     search: '/search',
     browsesByLanguage: '/browses-by-language',
-    lastes: '/lastes',
+    lastest: '/lastest',
+    welcome: '/',
+    login: '/login',
 };
 
 export default routesConfig;

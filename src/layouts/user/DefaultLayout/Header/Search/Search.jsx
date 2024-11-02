@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { searchChange } from '~/features/search/searchSlice.js';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import config from '~/config/index.js';
 
 function Search() {
     const [isFocused, setIsFocused] = useState(false);
@@ -20,12 +21,6 @@ function Search() {
         console.log(debounced);
     }, [debounced]);
 
-    useEffect(() => {
-        if (searchValue === '') {
-            navigative('/');
-        }
-    }, [searchValue]);
-
     const handleInputFocus = useCallback(() => {
         setIsFocused(true);
     }, []);
@@ -35,8 +30,12 @@ function Search() {
     }, []);
 
     const handleInputChange = useCallback((e) => {
-        dispatch(searchChange(e.target.value));
-        navigative(`/search?q=${encodeURIComponent(e.target.value)}`);
+        if (e.target.value === '' && searchValue === '') {
+            navigative(config.routes.home);
+        } else {
+            dispatch(searchChange(e.target.value));
+            navigative(`/search?q=${encodeURIComponent(e.target.value)}`);
+        }
     }, []);
 
     const handleButtonClick = useCallback(() => {

@@ -17,6 +17,71 @@
     background-color: transparent;
 }
 
+
+@keyframes glitch-1 {
+    0% {
+        transform: translate(2px, -2px);
+    }
+    20% {
+        transform: translate(-2px, 2px);
+    }
+    40% {
+        transform: translate(-2px, -2px);
+    }
+    60% {
+        transform: translate(2px, 2px);
+    }
+    80% {
+        transform: translate(-2px, -2px);
+    }
+    100% {
+        transform: translate(2px, 2px);
+    }
+}
+
+@keyframes glitch-2 {
+    0% {
+        transform: translate(-2px, 2px);
+    }
+    20% {
+        transform: translate(2px, -2px);
+    }
+    40% {
+        transform: translate(2px, 2px);
+    }
+    60% {
+        transform: translate(-2px, -2px);
+    }
+    80% {
+        transform: translate(2px, -2px);
+    }
+    100% {
+        transform: translate(-2px, 2px);
+    }
+}
+
+.glitch-text {
+    position: relative;
+    color: white;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+    content: "404";
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: white;
+    opacity: 0.8;
+    animation: glitch-1 2s infinite;
+}
+
+.glitch-text::after {
+    color: red;
+    z-index: -1;
+    animation: glitch-2 2s infinite;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -29,3 +94,71 @@ body {
     font-size: 1rem;
     line-height: 1.5;
 }
+
+
+.btn {
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    border-radius: .4rem;
+    cursor: pointer;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    letter-spacing: .8px;
+    outline: none;
+    overflow: hidden;
+    padding: .6rem 1.2rem;
+    text-align: center;
+}
+
+.btn--outline {
+    border: .1rem solid #fff;
+    color: #fff;
+    position: relative;
+    transition: all .4s ease-in-out;
+    z-index: 1
+}
+
+.btn--outline:after,.btn--outline:before {
+    content: "";
+    height: 100%;
+    position: absolute;
+    transition: all .4s ease-in-out;
+    width: .1rem
+}
+
+.btn--outline:before {
+    background: transparent;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: -2
+}
+
+.btn--outline:after {
+    background: linear-gradient(90deg, #162b1b, rgb(35, 68, 42));
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    width: 0;
+    z-index: -1
+}
+
+.btn--outline:hover {
+    color: #fff
+}
+
+.btn--outline:hover img {
+    filter: brightness(0) saturate(100%) invert(100%) sepia(0) saturate(7487%) hue-rotate(198deg) brightness(105%) contrast(101%);
+    transition: all .2s
+}
+
+.btn--outline:hover:before {
+    width: 0
+}
+
+.btn--outline:hover:after {
+    width: 100%
+}
+
