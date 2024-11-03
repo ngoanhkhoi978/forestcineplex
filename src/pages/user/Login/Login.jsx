@@ -1,10 +1,11 @@
 import images from '~/assets/images/index.js';
-import SignInForm from '~/components/ui-aceternity/SignInForm/SignInForm.jsx';
+import SignInForm from '~/pages/user/Login/SignInForm.jsx';
+import classNames from 'classnames';
 
 function Login() {
+    const image = images.backgroundLogin.slice(1);
     return (
-        <div className="relative">
-            <img className="absolute bottom-0 left-0 right-0 top-0 z-0" src={images.backgroundLogin} alt="" />
+        <div className={classNames('h-screen bg-cover bg-center', `bg-[url('${image}')]`)}>
             <SignInForm className="relative mx-auto" />
         </div>
     );

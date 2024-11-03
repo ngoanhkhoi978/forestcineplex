@@ -34,7 +34,7 @@ function NotFound() {
                     <h1 className="glitch-text pr-6 text-9xl text-white text-shadow-lg">404</h1>
                     <h2 className="mt-6 text-4xl font-bold text-white">Lost your way?</h2>
                     <h3 className="mb-6 mt-6 text-white">
-                        Sorry, we can't find that page. You'll find lots to explore on the home page.
+                        Sorry, we can&#39;t find that page. You&#39;ll find lots to explore on the home page.
                     </h3>
                     <button onClick={handleOnClick} className="btn btn--outline pointer-events-auto">
                         Home page

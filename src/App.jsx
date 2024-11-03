@@ -1,11 +1,20 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Fragment } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { Fragment, useLayoutEffect } from 'react';
 
-import { publicRoutes } from '~/routes/routes.js';
-import DefaultLayout from './layouts/user/index.js';
 import AppRoutes from '~/routes/AppRoutes.jsx';
+import { useDispatch } from 'react-redux';
+import { login } from '~/features/authentication/authenticationSlice.js';
 
 function App() {
+    const dispatch = useDispatch();
+
+    useLayoutEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            dispatch(login({ user: null, token }));
+        }
+    }, [dispatch]);
+
     return (
         <>
             <BrowserRouter>

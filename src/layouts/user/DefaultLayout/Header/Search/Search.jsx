@@ -18,7 +18,7 @@ function Search() {
     const [t] = useTranslation();
 
     useEffect(() => {
-        console.log(debounced);
+        // console.log(debounced);
     }, [debounced]);
 
     const handleInputFocus = useCallback(() => {

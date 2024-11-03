@@ -6,8 +6,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
 function AppRoutes() {
-    const isAuthenticated = useSelector((state) => state.authenticated.true);
-    console.log(isAuthenticated);
+    const isAuthenticated = useSelector((state) => state.authentication.isAuthenticated);
 
     return (
         <Routes>
@@ -20,9 +19,16 @@ function AppRoutes() {
                         key={route.path}
                         path={route.path}
                         element={
-                            <Layout>
-                                <Page />
-                            </Layout>
+                            !isAuthenticated ? (
+                                <Layout>
+                                    <Page />
+                                </Layout>
+                            ) : (
+                                <Navigate to={'/home'} />
+                                // <Layout>
+                                //     <Page />
+                                // </Layout>
+                            )
                         }
                     />
                 );
