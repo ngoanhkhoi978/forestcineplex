@@ -1,23 +1,20 @@
-import { useEffect } from 'react';
-import { login } from '~/services/authService.js';
-import { get } from '~/services/apiService.js';
+import { useNavigate } from 'react-router-dom';
 
 function Welcome() {
-    useEffect(() => {
-        login({
-            username: 'admin',
-            password: 'admin',
-        })
-            .then((data) => console.log(data.data))
-            .catch((err) => {
-                console.log(err.response.data);
-                console.log(err);
-            });
-    }, []);
+    const navigate = useNavigate();
 
-    useEffect(() => {});
-
-    return <div></div>;
+    return (
+        <div className="h-screen w-full bg-primary">
+            <div className="flex h-full w-full items-center justify-center">
+                <button
+                    onClick={() => navigate('/home')}
+                    className="h-10 w-20 rounded-2xl border border-black bg-green-700"
+                >
+                    Login
+                </button>
+            </div>
+        </div>
+    );
 }
 
 export default Welcome;

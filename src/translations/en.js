@@ -3,10 +3,14 @@ const en = {
         search: 'Search',
         welcome: 'Welcome',
         home: 'Home',
-        'tv shows': 'TV Shows',
+        'tv-shows': 'TV Shows',
         movies: 'Movies',
-        'my list': 'My List',
+        'my-list': 'My List',
         news: 'News',
+        korean: 'Korean',
+        'tv-comedies': 'TV Comedies',
+        romantic: 'Romantic',
+        play: 'Play',
     },
 };
 

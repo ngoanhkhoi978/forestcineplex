@@ -6,9 +6,10 @@ const routesConfig = {
     news: '/news',
     search: '/search',
     browsesByLanguage: '/browses-by-language',
-    lastest: '/lastest',
+    latest: '/latest',
     welcome: '/',
     login: '/login',
+    watch: '/watch/:mediaId',
 };
 
 export default routesConfig;

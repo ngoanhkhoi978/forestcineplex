@@ -8,22 +8,27 @@ import TVShows from '~/pages/user/TVShows/TVShows.jsx';
 import Welcome from '~/pages/user/Welcome/Welcome.jsx';
 import NotFound from '~/pages/user/NotFound/NotFound.jsx';
 import Login from '~/pages/user/Login/Login.jsx';
+import Watch from '~/pages/user/Watch/Watch.jsx';
+
+// default layout = DefaultLayout
 
 const publicRoutes = [
-    {
-        path: '*',
-        component: NotFound,
-        layout: null,
-    },
-
     {
         path: config.routes.login,
         component: Login,
         layout: null,
+        requiresGuest: false,
     },
     {
         path: config.routes.welcome,
         component: Welcome,
+        layout: null,
+        requiresGuest: false,
+    },
+    {
+        path: '*',
+        component: NotFound,
+        layout: null,
     },
 ];
 const privateRoutes = [
@@ -50,6 +55,10 @@ const privateRoutes = [
     {
         path: config.routes.tvShows,
         component: TVShows,
+    },
+    {
+        path: config.routes.watch,
+        component: Watch,
     },
 ];
 

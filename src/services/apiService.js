@@ -1,14 +1,14 @@
 import axios from 'axios';
+import config from '~/config/index.js';
 
 const api = axios.create({
-    baseURL: 'http://192.168.2.103:3000/api',
+    baseURL: config.baseURL,
     timeout: 10000,
     headers: {
         'Content-Type': 'application/json',
     },
 });
-
-export const get = (url, config = {}) => api.get(url, config);
+export const get = (url, config = {}) => api.get(url, config).catch();
 export const post = (url, data, config = {}) => api.post(url, data, config);
 export const patch = (url, data, config = {}) => api.patch(url, data, config);
 export const put = (url, data, config = {}) => api.put(url, data, config);

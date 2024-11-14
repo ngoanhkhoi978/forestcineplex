@@ -26,37 +26,31 @@ export default function SignInForm({ className }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const credentials = {
-            username,
-            password,
-        };
-        console.log(credentials);
-        loginAPI(credentials)
-            .then((res) => {
-                const { token } = res.data;
-                dispatch(login(token));
-                localStorage.setItem('token', token);
+        const credentials = { username, password };
+        loginAPI(credentials).then((result) => {
+            if (result.success) {
+                console.log(result);
+                dispatch(login(result.user));
                 navigate('/home');
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+            } else {
+                console.log(result);
+            }
+        });
     };
 
     return (
         <div
-            className={cn(
-                'w-full max-w-md rounded-none bg-white p-4 opacity-85 shadow-input md:rounded-2xl md:p-8 dark:bg-black',
-                className,
-            )}
+            className={cn('w-full max-w-md rounded-2xl bg-white p-8 opacity-85 shadow-input dark:bg-black', className)}
         >
             <h2 className="text-xl font-bold text-neutral-800 dark:text-neutral-200">Welcome to ForestCineplex🌳</h2>
             <p className="mt-2 max-w-sm text-sm text-neutral-600 dark:text-neutral-300">
                 Login to aceternity if you can because we don&apos;t have a login flow yet
             </p>
             <form className="my-8" onSubmit={handleSubmit}>
-                <LabelInputContainer className="mb-6">
-                    <Label htmlFor="username">Username</Label>
+                <LabelInputContainer className="mb-8">
+                    <Label htmlFor="username" className="mb-3">
+                        Username
+                    </Label>
                     <Input
                         id="username"
                         value={username}
@@ -66,8 +60,10 @@ export default function SignInForm({ className }) {
                     />
                 </LabelInputContainer>
 
-                <LabelInputContainer className="mb-6">
-                    <Label htmlFor="password">Password</Label>
+                <LabelInputContainer className="mb-16">
+                    <Label htmlFor="password " className="mb-3">
+                        Password
+                    </Label>
                     <Input
                         id="password"
                         value={password}
