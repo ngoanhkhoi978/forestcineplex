@@ -1,56 +1,43 @@
-import React, { useEffect, useRef, useState } from 'react';
-import videojs from 'video.js';
+import { useRef, useEffect } from 'react';
+import Hls from 'hls.js';
 import PropTypes from 'prop-types';
-import classNames from 'classnames'; // Để xử lý className
 
-const VideoPlayer = ({ videoSrc, className }) => {
-    const videoRef = useRef(null); // ref để lưu video element
-    const [error, setError] = useState(false);
-    const [playerReady, setPlayerReady] = useState(false);
+const VideoPlayer = ({ videoRef , src, ...props }) => {
 
     useEffect(() => {
-        if (videoRef.current && videoSrc) {
-            const newPlayer = videojs(videoRef.current, {
-                autoplay: true,
-                controls: true,
-                sources: [
-                    {
-                        src: videoSrc,
-                        type: 'application/x-mpegURL', // HLS stream type
-                    },
-                ],
+        const video = videoRef.current;
+
+        if (Hls.isSupported()) {
+            const hls = new Hls({
+                xhrSetup: (xhr) => {
+                    xhr.withCredentials = true;
+                },
             });
 
-            newPlayer.on('error', () => {
-                const errorMessage = newPlayer.error()?.message || 'An error occurred while playing the video.';
-                setError(true); // Cập nhật state lỗi
+            hls.loadSource(src);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                video.play();
             });
 
             return () => {
-                if (newPlayer && newPlayer.el() && newPlayer.el().parentNode) {
-                    newPlayer.dispose(); // Giải phóng tài nguyên player nếu element còn tồn tại
-                }
+                hls.destroy();
             };
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = src;
+            video.addEventListener('loadedmetadata', () => {
+                video.play();
+            });
         }
-    }, [videoSrc]); // Khi videoSrc thay đổi
+    }, [src]);
 
-    if (error && playerReady) return <div>Lỗi rồi</div>;
-
-    if (!videoSrc) {
-        console.log('deo co');
-        return <div>Loading...</div>;
-    }
-
-    return (
-        <div className={classNames('video-container', className)}>
-            <video ref={videoRef} className="video-js vjs-default-skin" style={{ width: '100%' }} />
-        </div>
-    );
+    return <video ref={videoRef} {...props} />;
 };
 
 VideoPlayer.propTypes = {
-    videoSrc: PropTypes.string,
+    src: PropTypes.string,
     className: PropTypes.string,
+    videoRef: PropTypes.string
 };
 
 export default VideoPlayer;

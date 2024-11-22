@@ -18,7 +18,7 @@ export default {
             },
             colors: {
                 'black-75': 'rgba(0, 0, 0, 0.75)',
-                primary: '#162b1b',
+                primary: '#0a140c',
             },
             container: {
                 center: false,

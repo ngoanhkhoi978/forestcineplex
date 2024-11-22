@@ -2,15 +2,16 @@ import Billboard from '~/pages/user/Home/Billboard/Billboard.jsx';
 import { ExpandableCardDemo } from '~/components/ui-aceternity/ExpandableCard/ExpandableCard.jsx';
 
 import Carousel from '~/components/CarouselCard/Carousel.jsx';
+import MovieCategory from '~/pages/user/Home/MovieCategory/MovieCategory.jsx';
+import { useEffect, useState } from 'react';
+import { fetchGenres } from '~/services/genresService.js';
 
 function Home() {
-    var settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-    };
+    const [genres, setGenres] = useState([]);
+
+    useEffect(() => {
+        fetchGenres().then((genres) => setGenres(genres));
+    }, []);
 
     return (
         <div>
@@ -29,19 +30,10 @@ function Home() {
                     </div>
                 </div>
             </div>
-            <div className="container mx-auto mt-32">
-                <div>
-                    <h1 className="mb-4 text-4xl font-bold text-white">Movies</h1>
-                    <div className="grid grid-cols-12 gap-4">
-                        <ExpandableCardDemo className="col-span-6 md:col-span-4 lg:col-span-2" />
-                        <ExpandableCardDemo className="col-span-6 md:col-span-4 lg:col-span-2" />
-                        <ExpandableCardDemo className="col-span-6 md:col-span-4 lg:col-span-2" />
-                        <ExpandableCardDemo className="col-span-6 md:col-span-4 lg:col-span-2" />
-                        <ExpandableCardDemo className="col-span-6 md:col-span-4 lg:col-span-2" />
-                        <ExpandableCardDemo className="col-span-6 md:col-span-4 lg:col-span-2" />
-                    </div>
-                </div>
-            </div>
+
+            {genres.map((genre) => (
+                <MovieCategory key={genre._id} genre={genre.name} />
+            ))}
         </div>
     );
 }

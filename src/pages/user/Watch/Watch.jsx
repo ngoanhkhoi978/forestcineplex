@@ -5,51 +5,17 @@ import { useNavigate, useParams } from 'react-router-dom';
 import config from '~/config/index.js';
 import VideoJS from '~/components/VideoPlayer/VideoJS.jsx';
 import videojs from 'video.js';
+import { getFullMediaUrl } from '~/services/movieService.js';
 
 function Watch() {
     const { mediaId } = useParams();
-    const playerRef = useRef(null);
-    const navigate = useNavigate();
+    const videoRef = useRef(null);
 
-    const videoOptions = {
-        autoplay: false,
-        controls: true,
-        responsive: true,
-        fluid: true,
-        preload: 'auto',
-        playbackRates: [0.25, 0.5, 1, 1.25, 1.5, 1.75, 2],
-        sources: [
-            {
-                src: `${config.baseURL}/movies/media/${mediaId}/${mediaId}.m3u8`,
-                type: 'application/x-mpegURL',
-                withCredentials: true,
-            },
-        ],
-    };
-
-    const handlePlayerReady = (player) => {
-        playerRef.current = player;
-
-        player.on('waiting', () => {
-            videojs.log('player is waiting');
-        });
-
-        player.on('dispose', () => {
-            videojs.log('player will dispose');
-        });
-    };
-
-    const handlePlayerError = (player) => {
-        if (player && !player.isDisposed()) {
-            player.dispose();
-            playerRef.current = null;
-        }
-        navigate('/not-found-movie');
-    };
+    console.log(getFullMediaUrl(mediaId));
 
     return (
         <div className="container mx-auto pt-header">
-            <VideoJS options={videoOptions} onReady={handlePlayerReady} onError={handlePlayerError} />
+            <VideoPlayer controls videoRef={videoRef} src={getFullMediaUrl(mediaId)} className={'h-auto w-full'} />
         </div>
     );
 }
