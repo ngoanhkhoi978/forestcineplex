@@ -7,7 +7,9 @@ const api = axios.create({
     headers: {
         'Content-Type': 'application/json',
     },
+    withCredentials: true,
 });
+
 export const get = (url, config = {}) => api.get(url, config).catch();
 export const post = (url, data, config = {}) => api.post(url, data, config);
 export const patch = (url, data, config = {}) => api.patch(url, data, config);

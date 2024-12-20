@@ -5,6 +5,7 @@ const navigationItems = [
     { title: 'tv-shows', path: config.routes.tvShows },
     { title: 'movies', path: config.routes.movies },
     { title: 'my-list', path: config.routes.myList },
+    { title: 'plans', path: config.routes.plans },
     { title: 'news', path: config.routes.news },
 ];
 

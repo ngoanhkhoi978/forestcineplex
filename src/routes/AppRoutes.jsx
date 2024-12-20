@@ -5,6 +5,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import ScrollToTop from '~/routes/ScrollToTop.jsx';
+import { selectIsAuthenticated } from '~/features/user/userSelectors.js';
 
 function AppRoutes() {
     return (
@@ -60,7 +61,7 @@ function AppRoutes() {
 }
 
 const GuestRoute = ({ children }) => {
-    const isAuthenticated = useSelector((state) => state.authentication.isAuthenticated);
+    const isAuthenticated = useSelector(selectIsAuthenticated);
     return !isAuthenticated ? children : <Navigate to="/home" />;
 };
 GuestRoute.propTypes = {
@@ -68,7 +69,7 @@ GuestRoute.propTypes = {
 };
 
 const ProtectedRoute = ({ children }) => {
-    const isAuthenticated = useSelector((state) => state.authentication.isAuthenticated);
+    const isAuthenticated = useSelector(selectIsAuthenticated);
     return isAuthenticated ? children : <Navigate to="/login" />;
 };
 

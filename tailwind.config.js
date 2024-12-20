@@ -18,17 +18,17 @@ export default {
             },
             colors: {
                 'black-75': 'rgba(0, 0, 0, 0.75)',
-                primary: '#0a140c',
+                primary: '#070c09',
             },
             container: {
                 center: false,
-                padding: '0',
+                padding: '2px',
                 screens: {
-                    default: '940px',
-                    sm: '940px',
-                    md: '1068px',
-                    lg: '1224px',
-                    xl: '1480px',
+                    default: '640px',
+                    sm: '768px',
+                    md: '1024px',
+                    lg: '1280px',
+                    xl: '1536px',
                     '2xl': '1736px',
                 },
             },
@@ -39,6 +39,32 @@ export default {
             },
             boxShadow: {
                 input: `0px 2px 3px -1px rgba(0,0,0,0.1), 0px 1px 0px 0px rgba(25,28,33,0.02), 0px 0px 0px 1px rgba(25,28,33,0.08)`,
+            },
+            fontFamily: {
+                firaSansCondensed: ['Fira Sans Condensed', 'sans-serif'],
+                notoSans: ['Noto Sans', 'sans-serif'],
+            },
+            animation: {
+                aurora: 'aurora 60s linear infinite',
+                shimmer: 'shimmer 4s linear infinite',
+            },
+            keyframes: {
+                aurora: {
+                    from: {
+                        backgroundPosition: '50% 50%, 50% 50%',
+                    },
+                    to: {
+                        backgroundPosition: '350% 50%, 350% 50%',
+                    },
+                },
+                shimmer: {
+                    from: {
+                        backgroundPosition: '0 0',
+                    },
+                    to: {
+                        backgroundPosition: '-200% 0',
+                    },
+                },
             },
         },
     },

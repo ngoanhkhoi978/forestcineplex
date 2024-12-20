@@ -8,8 +8,9 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useCallback } from 'react';
 import ButtonLanguage from '~/layouts/user/DefaultLayout/Header/Menu/ButtonLanguage.jsx';
+import { selectUser } from '~/features/user/userSelectors.js';
 function Menu() {
-    const user = useSelector((state) => state.authentication.user);
+    const user = useSelector(selectUser);
 
     return (
         <div className="group/avatar-menu h-max w-[200px] rounded-md bg-[rgba(2,23,7,0.95)] px-6 pb-2 pt-4">

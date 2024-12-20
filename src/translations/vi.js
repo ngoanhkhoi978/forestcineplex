@@ -11,6 +11,7 @@ const vi = {
         'tv-comedies': 'Hài truyền hình',
         romantic: 'Lãng mạng',
         play: 'Phát',
+        plans: 'Gói dịch vụ',
     },
 };
 

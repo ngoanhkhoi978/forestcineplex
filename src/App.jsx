@@ -1,23 +1,39 @@
 import { BrowserRouter } from 'react-router-dom';
 import { Fragment, useLayoutEffect, useEffect, useState, Suspense, lazy } from 'react';
-import { useDispatch } from 'react-redux';
-import { login } from '~/features/authentication/authenticationSlice.js';
-import { verifyToken } from '~/services/authService.js';
+import { useDispatch, useSelector } from 'react-redux';
 import AppRoutes from '~/routes/AppRoutes.jsx';
-
-const Fallback = () => <div className="h-screen w-screen bg-primary"></div>;
+import { getUserFavouriteMovies } from '~/features/favorites/favouriteThunk.js';
+import { verifyTokenUser } from '~/features/user/userThunk.js';
+import config from '~/config/index.js';
+import { connectSocket } from '~/features/socket/socketThunk.js';
+import { sendMessage } from '~/features/socket/socketSlice.js';
+import { selectUser } from '~/features/user/userSelectors.js';
 
 function App() {
     const dispatch = useDispatch();
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
-    useLayoutEffect(() => {
-        verifyToken().then((result) => {
-            if (result.success) {
-                dispatch(login(result.user));
+    const isConnectedSocket = useSelector((state) => state.socket.connected);
+    const user = useSelector(selectUser);
+
+    useEffect(() => {
+        if (user) {
+            if (isConnectedSocket) {
+                dispatch(
+                    sendMessage({
+                        type: 'setRole',
+                        message: '',
+                    }),
+                );
             }
-            setLoading(false);
-        });
+
+            dispatch(getUserFavouriteMovies(user._id));
+        }
+    }, [isConnectedSocket, user]);
+
+    useEffect(() => {
+        dispatch(verifyTokenUser());
+        dispatch(connectSocket(config.baseURL));
     }, [dispatch]);
 
     if (loading) {

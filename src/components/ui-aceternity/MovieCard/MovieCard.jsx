@@ -8,7 +8,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { getFullResourceUrl } from '~/libs/utils.js';
+import { formatDate, formatTime, getFullResourceUrl } from '~/utils/utils.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMultiply, faPlay, faPlus } from '@fortawesome/free-solid-svg-icons';
+import VideoJS from '~/components/VideoPlayer/VideoJS.jsx';
+import { getFullMediaUrl } from '~/services/movieService.js';
 
 export function MovieCard({ className, movie }) {
     const [active, setActive] = useState(null);
@@ -84,7 +88,29 @@ export function MovieCard({ className, movie }) {
                         >
                             {/*Poster*/}
                             <motion.div layoutId={`image-${active.title}-${id}`}>
-                                <img className="w-full" src={getFullResourceUrl(movie.coverImageUrl)} alt="" />
+                                <div className="pointer-events-none relative">
+                                    <img
+                                        className="absolute bottom-0 left-0 right-0 top-0 w-full"
+                                        src={getFullResourceUrl(active.coverImageUrl)}
+                                        alt=""
+                                    />
+                                    <VideoJS
+                                        options={{
+                                            autoplay: true,
+                                            controls: false,
+                                            mute: false,
+                                            fluid: true,
+                                            responsive: true,
+                                            sources: [
+                                                {
+                                                    src: getFullResourceUrl(active.trailerUrl),
+                                                    type: 'application/x-mpegURL',
+                                                    withCredentials: true,
+                                                },
+                                            ],
+                                        }}
+                                    />
+                                </div>
                             </motion.div>
 
                             <div>
@@ -92,7 +118,7 @@ export function MovieCard({ className, movie }) {
                                     <div className="">
                                         {/*Release date & episodes */}
                                         <p className="mb-3 text-sm text-neutral-600 dark:text-neutral-400">
-                                            {`${movie.releaseDate} ${movie.episodes.length} Episodes`}
+                                            {`${formatDate(movie.releaseDate)} ${movie.episodes.length} Episodes`}
                                         </p>
                                         <motion.h3
                                             layoutId={`title-${active.title}-${id}`}
@@ -122,7 +148,12 @@ export function MovieCard({ className, movie }) {
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                         exit={{ opacity: 0 }}
-                                        className="rounded-3xl bg-green-500 px-7 py-3 text-lg font-bold text-white hover:bg-green-600"
+                                        className={classNames(
+                                            'select-none rounded-3xl bg-green-500 px-7 py-3 text-lg font-bold text-white hover:bg-green-600',
+                                            {
+                                                'pointer-events-none brightness-50': active.episodes.length === 0,
+                                            },
+                                        )}
                                         onClick={() => navigate(`/watch/${movie.episodes[0].mediaId}`)}
                                     >
                                         {t('play')}
@@ -159,7 +190,9 @@ export function MovieCard({ className, movie }) {
                                 {/*Show episodes*/}
                                 <div className="px-4">
                                     <div className="flex justify-between">
-                                        <h1 className="text-2xl font-bold text-white">Episodes</h1>
+                                        <h1 className="text-2xl font-bold text-white">
+                                            {active.isSeries ? 'Episodes' : 'Movie'}
+                                        </h1>
                                         <h3 className="text-lg text-gray-300">{active.title}</h3>
                                     </div>
                                     <div>
@@ -167,21 +200,32 @@ export function MovieCard({ className, movie }) {
                                             <Link
                                                 to={`/watch/${episode.mediaId}`}
                                                 key={index}
-                                                className="flex border-b border-[#404040] p-4 hover:brightness-75"
+                                                className="group/episode flex border-b border-[#404040] p-4"
                                             >
-                                                <div className="flex items-center">
+                                                <div className="hidden items-center group-hover/episode:brightness-75 md:flex">
                                                     <h1 className="px-4 text-2xl text-gray-300">
                                                         {episode.episodeNumber}
                                                     </h1>
                                                 </div>
-                                                <img
-                                                    className="hidden max-w-[20%] rounded-lg object-cover md:block"
-                                                    src={getFullResourceUrl(episode.thumbnailUrl)}
-                                                    alt=""
-                                                />
-                                                <div className="px-4">
+                                                <div className="relative flex max-w-[20%] items-center">
+                                                    <img
+                                                        className="rounded-lg object-cover group-hover/episode:brightness-75"
+                                                        src={getFullResourceUrl(episode.thumbnailUrl)}
+                                                        alt=""
+                                                    />
+                                                    <FontAwesomeIcon
+                                                        icon={faPlay}
+                                                        className="absolute bottom-1/2 right-1/2 hidden translate-x-1/2 translate-y-1/2 text-2xl font-bold text-white group-hover/episode:block"
+                                                    />
+                                                </div>
+
+                                                <div className="w-full px-4 group-hover/episode:brightness-75">
                                                     <div className="mb-2 flex justify-between text-gray-200">
-                                                        <h4>Episode {episode.episodeNumber}</h4>
+                                                        {movie.isSeries ? (
+                                                            <h4>Episode {episode.episodeNumber}</h4>
+                                                        ) : (
+                                                            <h4>Movie</h4>
+                                                        )}
                                                         <h5>{`${episode.duration}m`}</h5>
                                                     </div>
                                                     <p className="text-sm text-gray-400">{episode.description}</p>
@@ -201,7 +245,7 @@ export function MovieCard({ className, movie }) {
                     </div>
                 ) : null}
             </AnimatePresence>
-            <ul className={classNames('mx-auto w-full items-start gap-1', className)}>
+            <ul className={classNames('mx-auto w-full select-none items-start gap-1', className)}>
                 <motion.div
                     layoutId={`card-${movie.title}-${id}`}
                     key={movie.title}
@@ -235,7 +279,7 @@ export function MovieCard({ className, movie }) {
 
 export const CloseIcon = () => {
     return (
-        <motion.svg
+        <motion.div
             initial={{
                 opacity: 0,
             }}
@@ -248,21 +292,10 @@ export const CloseIcon = () => {
                     duration: 0.05,
                 },
             }}
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="h-4 w-4 text-black"
+            className="z-50 flex items-center justify-around rounded-full bg-[#fff9] p-1 leading-none text-black"
         >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M18 6l-12 12" />
-            <path d="M6 6l12 12" />
-        </motion.svg>
+            <FontAwesomeIcon icon={faMultiply} className="size-5" />
+        </motion.div>
     );
 };
 

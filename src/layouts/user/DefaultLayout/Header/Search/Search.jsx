@@ -4,22 +4,27 @@ import classNames from 'classnames';
 import useDebounce from '~/hooks/useDebounce.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchChange } from '~/features/search/searchSlice.js';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import config from '~/config/index.js';
+import { searchMovies } from '~/services/movieService.js';
 
 function Search() {
     const [isFocused, setIsFocused] = useState(false);
     const inputRef = useRef();
     const dispatch = useDispatch();
     const searchValue = useSelector((state) => state.search.value);
-    const debounced = useDebounce(searchValue, 500);
+
     const navigative = useNavigate();
     const [t] = useTranslation();
 
     useEffect(() => {
-        // console.log(debounced);
-    }, [debounced]);
+        if (searchValue === '') {
+            navigative(config.routes.home);
+        } else {
+            navigative(`${config.routes.search}?title=${encodeURIComponent(searchValue)}`);
+        }
+    }, [searchValue]);
 
     const handleInputFocus = useCallback(() => {
         setIsFocused(true);
@@ -30,12 +35,7 @@ function Search() {
     }, []);
 
     const handleInputChange = useCallback((e) => {
-        if (e.target.value === '' && searchValue === '') {
-            navigative(config.routes.home);
-        } else {
-            dispatch(searchChange(e.target.value));
-            navigative(`/search?q=${encodeURIComponent(e.target.value)}`);
-        }
+        dispatch(searchChange(e.target.value));
     }, []);
 
     const handleButtonClick = useCallback(() => {

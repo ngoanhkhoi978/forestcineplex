@@ -1,7 +1,7 @@
 // Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
 'use client';
 import * as React from 'react';
-import { cn } from '~/libs/utils.js';
+import { cn } from '~/utils/utils.js';
 import { useMotionTemplate, useMotionValue, motion } from 'framer-motion';
 
 // eslint-disable-next-line react/prop-types

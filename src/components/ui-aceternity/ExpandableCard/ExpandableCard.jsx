@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-export function ExpandableCardDemo({ className }) {
+export function ExpandableCardDemo({ className, name }) {
     const [active, setActive] = useState(null);
     const id = useId();
     const ref = useRef(null);
@@ -216,7 +216,7 @@ export function ExpandableCardDemo({ className }) {
                                 layoutId={`title-${movie.title}-${id}`}
                                 className="overflow-hidden text-ellipsis text-nowrap text-center text-base font-medium text-neutral-800 md:text-left dark:text-neutral-200"
                             >
-                                {movie.title}
+                                {name}
                             </motion.h3>
                             {/*<motion.p*/}
                             {/*    layoutId={`genres-${movie.genres}-${id}`}*/}

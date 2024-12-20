@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { motion } from 'framer-motion';
-import { cn } from '~/libs/utils.js';
+import { cn } from '~/utils/utils.js';
 import PropTypes from 'prop-types';
 
 export const BoxesCore = ({ className, ...rest }) => {

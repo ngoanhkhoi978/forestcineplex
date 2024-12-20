@@ -10,6 +10,11 @@ const routesConfig = {
     welcome: '/',
     login: '/login',
     watch: '/watch/:mediaId',
+    logout: '/logout',
+    register: '/register',
+    forgotPassword: '/forgot-password',
+    settings: '/settings',
+    plans: '/plans',
 };
 
 export default routesConfig;

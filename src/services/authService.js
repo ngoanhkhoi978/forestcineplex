@@ -1,4 +1,4 @@
-import { get, post } from './apiService';
+import { del, get, post } from './apiService';
 
 export const login = async (credentials) => {
     try {
@@ -12,13 +12,22 @@ export const login = async (credentials) => {
 export const verifyToken = async () => {
     try {
         const res = await get('/auth/verify-token', { withCredentials: true });
-        return { success: true, user: res.data };
+        return res.data;
     } catch (err) {
-        return { success: false, ...err.response.data };
+        console.log(err);
+        throw err;
     }
 };
 
-export const logout = () => {};
+export const logout = async () => {
+    try {
+        const res = await get('/auth/logout');
+        return res.data;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+};
 
 export const register = (userData) => {
     return post('/auth/register', userData);

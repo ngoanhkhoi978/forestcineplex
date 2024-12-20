@@ -1,14 +1,20 @@
 import config from '~/config/';
-import Home from '~/pages/user/Home/Home.jsx';
-import myList from '~/pages/user/MyList/MyList.jsx';
-import News from '~/pages/user/News/News.jsx';
-import Search from '~/pages/user/Search/Search.jsx';
-import Movies from '~/pages/user/Movies/Movies.jsx';
-import TVShows from '~/pages/user/TVShows/TVShows.jsx';
-import Welcome from '~/pages/user/Welcome/Welcome.jsx';
-import NotFound from '~/pages/user/NotFound/NotFound.jsx';
-import Login from '~/pages/user/Login/Login.jsx';
-import Watch from '~/pages/user/Watch/Watch.jsx';
+import Home from '~/pages/Home/Home.jsx';
+import myList from '~/pages/MyList/MyList.jsx';
+import News from '~/pages/News/News.jsx';
+import Search from '~/pages/Search/Search.jsx';
+import Movies from '~/pages/Movies/Movies.jsx';
+import TVShows from '~/pages/TVShows/TVShows.jsx';
+import Welcome from '~/pages/Welcome/Welcome.jsx';
+import NotFound from '~/pages/NotFound/NotFound.jsx';
+import Login from '~/pages/Login/Login.jsx';
+import Watch from '~/pages/Watch/Watch.jsx';
+import SecondLayout from '~/layouts/user/SecondLayout/SecondLayout.jsx';
+import Test from '~/pages/Test/Test.jsx';
+import Logout from '~/pages/Logout/Logout.jsx';
+import Register from '~/pages/Register/Register.jsx';
+import ForgotPassword from '~/pages/ForgotPassword/ForgotPassword.jsx';
+import Plans from '~/pages/Plans/Plans.jsx';
 
 // default layout = DefaultLayout
 
@@ -20,15 +26,33 @@ const publicRoutes = [
         requiresGuest: false,
     },
     {
+        path: config.routes.forgotPassword,
+        component: ForgotPassword,
+        layout: null,
+        requiresGuest: false,
+    },
+
+    {
         path: config.routes.welcome,
         component: Welcome,
-        layout: null,
+        layout: SecondLayout,
         requiresGuest: false,
     },
     {
         path: '*',
         component: NotFound,
+        layout: SecondLayout,
+    },
+    {
+        path: '/test',
+        component: Test,
         layout: null,
+    },
+    {
+        path: config.routes.register,
+        component: Register,
+        layout: null,
+        requiresGuest: false,
     },
 ];
 const privateRoutes = [
@@ -59,6 +83,15 @@ const privateRoutes = [
     {
         path: config.routes.watch,
         component: Watch,
+    },
+    {
+        path: config.routes.logout,
+        component: Logout,
+        layout: null,
+    },
+    {
+        path: config.routes.plans,
+        component: Plans,
     },
 ];
 

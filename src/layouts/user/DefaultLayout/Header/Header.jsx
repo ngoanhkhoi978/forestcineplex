@@ -1,7 +1,7 @@
 import Search from '~/layouts/user/DefaultLayout/Header/Search/Search.jsx';
 import classNames from 'classnames';
 import Navigation from '~/layouts/user/DefaultLayout/Header/Navigation/Navigation.jsx';
-import Brand from '~/layouts/user/DefaultLayout/Header/Brand/Brand.jsx';
+import Brand from '~/layouts/components/Brand/Brand.jsx';
 import useScroll from '~/hooks/useScroll.js';
 import BTNLanguage from '~/components/BTNLanguage/BTNLanguage.jsx';
 import AccountMenu from '~/layouts/user/DefaultLayout/Header/AccountMenu/AccountMenu.jsx';
@@ -11,10 +11,14 @@ import 'tippy.js/dist/tippy.css';
 import Menu from '~/layouts/user/DefaultLayout/Header/Menu/Menu.jsx';
 
 function Header() {
+    const isScroll = useScroll(300);
     return (
         <header
             className={classNames(
                 'fixed end-0 start-0 top-0 z-40 h-header bg-ct-header-gradient transition-all duration-500',
+                {
+                    'hover:bg-primary': isScroll,
+                },
             )}
         >
             <div className="container mx-auto flex h-full items-center justify-between p-2">

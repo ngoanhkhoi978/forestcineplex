@@ -11,6 +11,7 @@ const en = {
         'tv-comedies': 'TV Comedies',
         romantic: 'Romantic',
         play: 'Play',
+        plans: 'Plans',
     },
 };
 
