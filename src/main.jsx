@@ -6,9 +6,12 @@ import App from './App.jsx';
 import './index.css';
 import store from '~/store/store.js';
 import '~/translations/i18n.js';
+import { ToastProvider } from '~/providers/ToastProvider.jsx';
 
 createRoot(document.getElementById('root')).render(
     <Provider store={store}>
-        <App />
+        <ToastProvider>
+            <App />
+        </ToastProvider>
     </Provider>,
 );

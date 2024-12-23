@@ -10,7 +10,7 @@ const BackgroundLines = ({ children, className, svgOptions }) => {
             <div className="opacity-50">
                 <SVG svgOptions={svgOptions} />
             </div>
-            <div className={'relative z-10'}>{children}</div>
+            <div className={'relative z-10 h-full w-full'}>{children}</div>
         </div>
     );
 };

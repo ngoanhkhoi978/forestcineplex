@@ -1,6 +1,6 @@
 import { publicRoutes, privateRoutes } from '~/routes/routes.js';
 import React, { Fragment } from 'react';
-import DefaultLayout from '~/layouts/user/index.js';
+import DefaultLayout from '~/layouts/index.js';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';

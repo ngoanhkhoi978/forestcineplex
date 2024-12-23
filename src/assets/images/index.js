@@ -7,6 +7,7 @@ import titleMovie from './title-movie.png';
 import brand from './forestcinplex.png';
 import backgroundLogin from './background-login.jpg';
 import plantForwardFooter from './plant-forward-footer.png';
+import forestFooter from './forest-footer.png';
 
 const images = {
     logoSVG,
@@ -18,6 +19,7 @@ const images = {
     brand,
     backgroundLogin,
     plantForwardFooter,
+    forestFooter,
 };
 
 export default images;

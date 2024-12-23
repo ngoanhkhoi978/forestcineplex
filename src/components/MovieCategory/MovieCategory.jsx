@@ -2,7 +2,7 @@ import { ExpandableCardDemo } from '~/components/ui-aceternity/ExpandableCard/Ex
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { fetchMoviesWithGenre } from '~/services/movieService.js';
-import { MovieCard } from '~/components/ui-aceternity/MovieCard/MovieCard.jsx';
+import { MovieCard } from '~/components/MovieCard/MovieCard.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';

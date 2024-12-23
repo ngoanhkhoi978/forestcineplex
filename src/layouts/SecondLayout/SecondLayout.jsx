@@ -1,11 +1,12 @@
-import Header from '~/layouts/user/SecondLayout/Header/Header.jsx';
+import Header from '~/layouts/SecondLayout/Header/Header.jsx';
 import PropTypes from 'prop-types';
+import Footer from '~/layouts/DefaultLayout/Footer/Footer.jsx';
 
 function SecondLayout({ children }) {
     return (
         <>
             <Header />
-            <div className="bg-primary">{children}</div>
+            <div className="box-content min-h-screen bg-primary">{children}</div>
         </>
     );
 }

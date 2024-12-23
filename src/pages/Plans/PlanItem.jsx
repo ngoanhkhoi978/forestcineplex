@@ -9,15 +9,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectSubscriptionPlan } from '~/features/user/userSelectors.js';
 import { choosePlan } from '~/services/meService.js';
 import { setUser } from '~/features/user/userSlice.js';
+import { useToast } from '~/providers/ToastProvider.jsx';
 
 function PlanItem({ className, colors, details }) {
     const [hovered, setHovered] = React.useState(false);
     const subscriptionPlan = useSelector(selectSubscriptionPlan);
     const dispatch = useDispatch();
+    const { showToast } = useToast();
 
     const handleOnClick = useCallback(() => {
         choosePlan(details.name).then((user) => {
             dispatch(setUser(user));
+            showToast('Select subscription plan successfully', 'success', 3000);
         });
     }, []);
 

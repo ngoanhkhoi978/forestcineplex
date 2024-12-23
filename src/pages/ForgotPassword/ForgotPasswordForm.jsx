@@ -5,25 +5,21 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { Label } from '~/components/ui-aceternity/SignInForm/label.jsx';
 import { Input } from '~/components/ui-aceternity/SignInForm/input.jsx';
-import { cn } from '~/utils/utils.js';
+import { cn, parseValidationErrors } from '~/utils/utils.js';
 import { useDispatch } from 'react-redux';
-import { loginUser } from '~/features/user/userThunk.js';
-import { getUserFavouriteMovies } from '~/features/favorites/favouriteThunk.js';
+import { forgotPassword, resetPassword } from '~/services/authService.js';
+import classNames from 'classnames';
+import config from '~/config/index.js';
+import { useToast } from '~/providers/ToastProvider.jsx';
 
 export default function ForgotPasswordForm({ className }) {
-    const [username, setUsername] = useState('');
-
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-
-    const handleUsernameOnChange = (e) => {
-        setUsername(e.target.value);
-    };
-
-    const handleSubmit = async (e) => {};
+    const [step, setStep] = useState({
+        state: '',
+        identifier: '',
+    });
 
     return (
-        <>
+        <div className={'flex h-full items-center justify-center'}>
             <div
                 className={cn(
                     'w-full max-w-md rounded-2xl bg-white p-8 opacity-85 shadow-input dark:bg-black',
@@ -36,115 +32,13 @@ export default function ForgotPasswordForm({ className }) {
                 <p className="mt-2 max-w-sm text-sm text-neutral-600 dark:text-neutral-300">
                     Forgot your password? Don&#39;t worry, reset it here!
                 </p>
-                <form className="my-8 min-w-96" onSubmit={handleSubmit}>
-                    <LabelInputContainer className="mb-8">
-                        <Label htmlFor="username" className="mb-3">
-                            New Password
-                        </Label>
-                        <Input
-                            id="username"
-                            value={username}
-                            placeholder="••••••••"
-                            type="password"
-                            onChange={handleUsernameOnChange}
-                        />
-                    </LabelInputContainer>
-
-                    <LabelInputContainer className="mb-8">
-                        <Label htmlFor="username" className="mb-3">
-                            Confirm password
-                        </Label>
-                        <Input
-                            id="username"
-                            value={username}
-                            placeholder="••••••••"
-                            type="password"
-                            onChange={handleUsernameOnChange}
-                        />
-                    </LabelInputContainer>
-
-                    <button
-                        className="group/btn relative mb-6 block h-10 w-full rounded-md bg-green-700 font-medium text-white transition-all duration-300 ease-in-out hover:bg-green-800"
-                        type="submit"
-                    >
-                        Save password &rarr;
-                        <BottomGradient />
-                    </button>
-
-                    {/*<LabelInputContainer className="mb-8">*/}
-                    {/*    <Label htmlFor="username" className="mb-3">*/}
-                    {/*        Username*/}
-                    {/*    </Label>*/}
-                    {/*    <Input*/}
-                    {/*        id="username"*/}
-                    {/*        value={username}*/}
-                    {/*        placeholder="Username or email"*/}
-                    {/*        type="text"*/}
-                    {/*        onChange={handleUsernameOnChange}*/}
-                    {/*    />*/}
-                    {/*</LabelInputContainer>*/}
-
-                    {/*<button*/}
-                    {/*    className="group/btn relative mb-6 block h-10 w-full rounded-md bg-green-700 font-medium text-white transition-all duration-300 ease-in-out hover:bg-green-800"*/}
-                    {/*    type="submit"*/}
-                    {/*>*/}
-                    {/*    Reset Password &rarr;*/}
-                    {/*    <BottomGradient />*/}
-                    {/*</button>*/}
-
-                    <div className="text-[#8c8c8c]">
-                        <p className={'text-center'}>
-                            <Link to="/login" className="font-bold text-white">
-                                Already have an account? Log in here!
-                            </Link>{' '}
-                        </p>
-                    </div>
-
-                    {/*<div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />*/}
-
-                    {/*<div className="flex flex-col space-y-4">*/}
-                    {/*    <button*/}
-                    {/*        className="group/btn shadow-input relative flex h-10 w-full items-center justify-start space-x-2 rounded-md bg-gray-50 px-4 font-medium text-black dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"*/}
-                    {/*        type="submit"*/}
-                    {/*    >*/}
-                    {/*        <span className="text-sm text-neutral-700 dark:text-neutral-300">GitHub</span>*/}
-                    {/*        <BottomGradient />*/}
-                    {/*    </button>*/}
-                    {/*</div>*/}
-                </form>
+                {step.state === 'resetPassword' ? (
+                    <ResetPasswordForm step={step} />
+                ) : (
+                    <FindUserForm setStep={setStep} />
+                )}
             </div>
-            <div
-                className={'bottom-0 left-0 right-0 top-0 flex hidden items-center justify-center bg-black bg-black/50'}
-            >
-                <div className={'h-72 w-[400px] rounded-2xl bg-primary p-10'}>
-                    <h1 className={'mb-2 text-center text-2xl font-medium text-gray-300'}>
-                        Verification Code Required
-                    </h1>
-                    <h3 className={'mb-4 text-center text-sm text-gray-500'}>
-                        A Verification Code Has Been Sent to ngoanhkhoi978@gmail.com
-                    </h3>
-                    <div>
-                        <LabelInputContainer className="mb-8">
-                            <Input
-                                id="username"
-                                value={username}
-                                placeholder="CODE"
-                                type="text"
-                                onChange={handleUsernameOnChange}
-                                className={'text-center'}
-                            />
-                        </LabelInputContainer>
-                        <button
-                            className="group/btn relative mb-6 block h-10 w-full rounded-md bg-green-700 font-medium text-white transition-all duration-300 ease-in-out hover:bg-green-800"
-                            type="submit"
-                        >
-                            Verify &rarr;
-                            <BottomGradient />
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </>
+        </div>
     );
 }
 
@@ -168,4 +62,180 @@ const LabelInputContainer = ({ children, className }) => {
 LabelInputContainer.propTypes = {
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
+};
+
+// eslint-disable-next-line react/prop-types
+const FindUserForm = ({ setStep }) => {
+    const [identifier, setIdentifier] = useState('');
+
+    const { showToast } = useToast();
+
+    const [validators, setValidators] = useState({});
+
+    const handleIdentifierOnChange = (e) => {
+        setValidators({});
+        setIdentifier(e.target.value);
+    };
+
+    const handleSubmit = (e) => {
+        setValidators({});
+        e.preventDefault();
+        setValidators({});
+        forgotPassword(identifier)
+            .then((result) => {
+                showToast(result?.message, 'success', 3000);
+                setStep({
+                    state: 'resetPassword',
+                    identifier: identifier,
+                });
+            })
+            .catch((err) => setValidators(parseValidationErrors(err)));
+    };
+
+    return (
+        <form className="my-8 min-w-96" onSubmit={handleSubmit}>
+            <LabelInputContainer className="mb-8">
+                <Label
+                    htmlFor="identifier"
+                    className={classNames('mb-3', {
+                        '!text-red-500': validators.identifier,
+                    })}
+                >
+                    Username
+                </Label>
+                <Input
+                    id="identifier"
+                    value={identifier}
+                    placeholder="Username or email"
+                    type="text"
+                    onChange={handleIdentifierOnChange}
+                />
+                {validators.identifier && (
+                    <em className={'text-[10px] italic text-red-300'}>{validators.identifier}</em>
+                )}
+            </LabelInputContainer>
+
+            <button className="group/btn relative mb-6 block h-10 w-full rounded-md bg-green-700 font-medium text-white transition-all duration-300 ease-in-out hover:bg-green-800">
+                Reset Password &rarr;
+                <BottomGradient />
+            </button>
+
+            <div className="text-[#8c8c8c]">
+                <p className={'text-center'}>
+                    <Link to={config.routes.login} className="font-bold text-white">
+                        Already have an account? Log in here!
+                    </Link>{' '}
+                </p>
+            </div>
+        </form>
+    );
+};
+
+const ResetPasswordForm = ({ step }) => {
+    const [validators, setValidators] = useState({});
+    const [otp, setOtp] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmNewPassword, setConfirmNewPassword] = useState('');
+    const { showToast } = useToast();
+    const navigate = useNavigate();
+
+    const handleNewPasswordOnChange = (e) => {
+        setNewPassword(e.target.value);
+        setValidators((pre) => ({ ...pre, newPassword: null }));
+    };
+    const handleConfirmNewPasswordOnChange = (e) => {
+        setConfirmNewPassword(e.target.value);
+        setValidators((pre) => ({ ...pre, confirmNewPassword: null }));
+    };
+
+    const handleOtpOnChange = (e) => {
+        setOtp(e.target.value);
+        setValidators((pre) => ({ ...pre, otp: null }));
+    };
+
+    const handleSubmit = (e) => {
+        setValidators({});
+        e.preventDefault();
+        resetPassword({
+            otp,
+            newPassword,
+            confirmNewPassword,
+            identifier: step.identifier,
+        })
+            .then((user) => {
+                showToast('Password reset successful', 'success', 3000);
+                navigate(config.routes.login);
+            })
+            .catch((err) => setValidators(parseValidationErrors(err)));
+    };
+
+    return (
+        <form className={'my-8 min-w-96'}>
+            <LabelInputContainer className="mb-8">
+                <Label
+                    htmlFor="newPassword"
+                    className={classNames('mb-3', {
+                        '!text-red-500': validators.otp,
+                    })}
+                >
+                    OTP
+                </Label>
+                <Input id="otp" value={otp} placeholder="Enter OTP" type="text" onChange={handleOtpOnChange} />
+                {validators.otp && <em className={'text-[10px] italic text-red-300'}>{validators.otp}</em>}
+            </LabelInputContainer>
+
+            <LabelInputContainer className="mb-8">
+                <Label
+                    htmlFor="newPassword"
+                    className={classNames('mb-3', {
+                        '!text-red-500': validators.newPassword,
+                    })}
+                >
+                    New Password
+                </Label>
+                <Input
+                    id="username"
+                    value={newPassword}
+                    placeholder="••••••••"
+                    type="password"
+                    onChange={handleNewPasswordOnChange}
+                />
+                {validators.newPassword && (
+                    <em className={'text-[10px] italic text-red-300'}>{validators.newPassword}</em>
+                )}
+            </LabelInputContainer>
+
+            <LabelInputContainer className="mb-8">
+                <Label
+                    htmlFor="confirmNewPassword"
+                    className={classNames('mb-3', {
+                        '!text-red-500': validators.confirmNewPassword,
+                    })}
+                >
+                    Confirm password
+                </Label>
+                <Input
+                    id="confirmNewPassword"
+                    value={confirmNewPassword}
+                    placeholder="••••••••"
+                    type="password"
+                    onChange={handleConfirmNewPasswordOnChange}
+                />
+                {validators.confirmNewPassword && (
+                    <em className={'text-[10px] italic text-red-300'}>{validators.confirmNewPassword}</em>
+                )}
+            </LabelInputContainer>
+
+            <button
+                onClick={handleSubmit}
+                className="group/btn relative mb-6 block h-10 w-full rounded-md bg-green-700 font-medium text-white transition-all duration-300 ease-in-out hover:bg-green-800"
+            >
+                Save password &rarr;
+                <BottomGradient />
+            </button>
+        </form>
+    );
+};
+ResetPasswordForm.propTypes = {
+    step: PropTypes.object,
 };

@@ -7,8 +7,9 @@ import { faArrowRightFromBracket, faEarthAsia } from '@fortawesome/free-solid-sv
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useCallback } from 'react';
-import ButtonLanguage from '~/layouts/user/DefaultLayout/Header/Menu/ButtonLanguage.jsx';
+import ButtonLanguage from '~/layouts/DefaultLayout/Header/AvatarMenu/Menu/ButtonLanguage.jsx';
 import { selectUser } from '~/features/user/userSelectors.js';
+import config from '~/config/index.js';
 function Menu() {
     const user = useSelector(selectUser);
 
@@ -39,7 +40,7 @@ const menuItems = [
     {
         icon: <FontAwesomeIcon icon={faPenToSquare} />,
         title: 'Manage profile',
-        to: '/profile',
+        to: config.routes.profile,
     },
     {
         icon: '',

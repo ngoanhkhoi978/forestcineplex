@@ -5,9 +5,15 @@ export const connectSocket = createAsyncThunk(
     'socket/connectSocket', // Tên action
     async (url, { dispatch, getState }) => {
         return new Promise((resolve, reject) => {
-            const socket = io(url, {
-                withCredentials: true,
-            });
+            let socket = getState().socket.socket;
+
+            console.log(socket);
+
+            if (!socket) {
+                socket = io(url, {
+                    withCredentials: true,
+                });
+            }
 
             socket.on('connect', () => {
                 resolve(socket);

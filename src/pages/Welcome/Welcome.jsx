@@ -32,13 +32,13 @@ function Welcome() {
                         words={[
                             {
                                 text: 'Unlimited movies, TV Shows, and more ...',
-                                className: 'text-2xl md:text-3xl lg:text-4xl !text-gray-300',
+                                className: 'text-xl md:text-3xl lg:text-4xl !text-gray-300',
                             },
                         ]}
                     />
                     <div>
                         <button
-                            className="animate-shimmer inline-flex h-12 w-36 items-center justify-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#199245,45%,#4ade80,55%,#199245)] bg-[length:200%_100%] px-6 font-medium text-white transition-colors focus:outline-none focus:ring-1 focus:ring-green-400 focus:ring-offset-1 focus:ring-offset-slate-50"
+                            className="inline-flex h-12 w-36 animate-shimmer items-center justify-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#199245,45%,#4ade80,55%,#199245)] bg-[length:200%_100%] px-6 font-medium text-white transition-colors focus:outline-none focus:ring-1 focus:ring-green-400 focus:ring-offset-1 focus:ring-offset-slate-50"
                             onClick={() => navigate(`/home`)}
                         >
                             Get started

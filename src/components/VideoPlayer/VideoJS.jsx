@@ -23,12 +23,16 @@ export const VideoJS = ({ options, onReady, className }) => {
     const subscriptionPlan = useSelector(selectSubscriptionPlan);
 
     useEffect(() => {
-        if (playerRef.current && options.autoplay) {
-            if (isScroll) {
-                playerRef.current.pause();
-            } else {
-                playerRef.current.play();
+        try {
+            if (playerRef.current && options.autoplay) {
+                if (isScroll) {
+                    playerRef.current?.pause();
+                } else {
+                    playerRef.current?.play();
+                }
             }
+        } catch (e) {
+            console.error(e);
         }
     }, [isScroll]);
 

@@ -15,6 +15,7 @@ const routesConfig = {
     forgotPassword: '/forgot-password',
     settings: '/settings',
     plans: '/plans',
+    profile: '/profile',
 };
 
 export default routesConfig;

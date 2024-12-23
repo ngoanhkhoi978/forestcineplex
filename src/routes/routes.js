@@ -9,12 +9,13 @@ import Welcome from '~/pages/Welcome/Welcome.jsx';
 import NotFound from '~/pages/NotFound/NotFound.jsx';
 import Login from '~/pages/Login/Login.jsx';
 import Watch from '~/pages/Watch/Watch.jsx';
-import SecondLayout from '~/layouts/user/SecondLayout/SecondLayout.jsx';
+import SecondLayout from '~/layouts/SecondLayout/SecondLayout.jsx';
 import Test from '~/pages/Test/Test.jsx';
 import Logout from '~/pages/Logout/Logout.jsx';
 import Register from '~/pages/Register/Register.jsx';
 import ForgotPassword from '~/pages/ForgotPassword/ForgotPassword.jsx';
 import Plans from '~/pages/Plans/Plans.jsx';
+import Profile from '~/pages/Profile/Profile.jsx';
 
 // default layout = DefaultLayout
 
@@ -92,6 +93,11 @@ const privateRoutes = [
     {
         path: config.routes.plans,
         component: Plans,
+    },
+    {
+        path: config.routes.profile,
+        component: Profile,
+        layout: SecondLayout,
     },
 ];
 

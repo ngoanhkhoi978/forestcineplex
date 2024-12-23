@@ -1,10 +1,9 @@
 import { SearchOutlined } from '@ant-design/icons';
 import { useRef, useState, useCallback, useEffect } from 'react';
 import classNames from 'classnames';
-import useDebounce from '~/hooks/useDebounce.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchChange } from '~/features/search/searchSlice.js';
-import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import config from '~/config/index.js';
 import { searchMovies } from '~/services/movieService.js';

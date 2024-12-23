@@ -18,14 +18,17 @@ import Comment from '~/pages/Watch/Comment/Comment.jsx';
 import { incrementViews } from '~/services/viewService.js';
 import Tippy from '@tippyjs/react/headless';
 import 'tippy.js/dist/tippy.css';
-import Menu from '~/layouts/user/DefaultLayout/Header/Menu/Menu.jsx';
+import Menu from '~/layouts/DefaultLayout/Header/AvatarMenu/Menu/Menu.jsx';
 import Rating from '~/pages/Watch/Rating.jsx';
+import { fetchReviewMovie } from '~/services/ratingService.js';
 
 function Watch() {
     const { mediaId } = useParams();
 
     const [activeEpisode, setActiveEpisode] = useState({});
     const [movie, setMovie] = useState({});
+    const [reviews, setReviews] = useState({});
+    const [render, onRender] = useState(0);
 
     useEffect(() => {
         if (mediaId) {
@@ -36,6 +39,12 @@ function Watch() {
             });
         }
     }, [mediaId]);
+
+    useEffect(() => {
+        if (movie) {
+            fetchReviewMovie(movie._id).then((result) => setReviews(result ?? 0));
+        }
+    }, [movie, render]);
 
     return (
         <div className="mx-auto">
@@ -63,7 +72,9 @@ function Watch() {
                                     <h1 className="font-notoSans text-lg font-medium leading-none text-green-500 lg:text-xl 2xl:text-2xl">{`${movie.title}`}</h1>
                                     <span className={'mx-2 leading-none text-gray-500'}>|</span>
                                     <Tippy
-                                        render={(attrs) => <Rating />}
+                                        render={(attrs) => (
+                                            <Rating reviews={reviews} movieId={movie._id} onRender={onRender} />
+                                        )}
                                         placement="bottom-start"
                                         delay={[0, 100]}
                                         interactive
@@ -73,9 +84,9 @@ function Watch() {
                                         hideOnClick={true}
                                     >
                                         <div className="flex items-center font-notoSans text-sm leading-none text-gray-200 hover:border-b">
-                                            <span>4.7</span>
+                                            <span>{reviews.ratingCount === 0 ? 'Unrated' : reviews.averageRating}</span>
                                             <FontAwesomeIcon className="mx-1" icon={faStar} />
-                                            <span>(97K)</span>
+                                            <span>{`(${reviews.ratingCount})`}</span>
                                         </div>
                                     </Tippy>
                                 </div>
@@ -88,7 +99,7 @@ function Watch() {
                             </div>
 
                             <div className={'mt-10'}>
-                                <p className="text-gray-400">{movie.description}</p>
+                                <p className="text-gray-400">{activeEpisode.description}</p>
                             </div>
 
                             <div className={'mt-10'}>
@@ -140,6 +151,12 @@ function Watch() {
                                             ))}
                                     </div>
                                 </div>
+
+                                <div className="flex flex-col border-b border-gray-900 py-4">
+                                    <h3 className="font-medium">Descriptions</h3>
+                                    <p className={'text-md text-gray-400'}> {movie.description}</p>
+                                </div>
+
                                 <div>
                                     <Comment episodeId={activeEpisode._id} />
                                 </div>

@@ -4,7 +4,7 @@ import { searchChange } from '~/features/search/searchSlice.js';
 import useDebounce from '~/hooks/useDebounce.js';
 import { searchMovies } from '~/services/movieService.js';
 import { useSearchParams } from 'react-router-dom';
-import { MovieCard } from '~/components/ui-aceternity/MovieCard/MovieCard.jsx';
+import { MovieCard } from '~/components/MovieCard/MovieCard.jsx';
 
 function Search() {
     const dispatch = useDispatch();

@@ -5,12 +5,22 @@ import { connectSocket } from '~/features/socket/socketThunk.js';
 const initialState = {
     socket: null,
     connected: false,
+    notifications: [],
+    messages: [],
+    hasSetRole: false,
 };
 
 const socketSlice = createSlice({
     name: 'socket',
     initialState,
     reducers: {
+        setRole: (state) => {
+            if (state.socket && state.connected) {
+                state.socket.emit('setRole', '');
+                state.hasSetRole = true;
+            }
+        },
+
         disconnectSocket: (state) => {
             if (state.socket) {
                 state.socket.disconnect();
@@ -19,15 +29,16 @@ const socketSlice = createSlice({
             }
         },
         sendMessage: (state, action) => {
-            console.log(state.socket, state.connected);
             if (state.socket && state.connected) {
                 const { type, message } = action.payload;
                 state.socket.emit(type, message);
             }
         },
-        setSocket: (state, action) => {
-            state.socket = action.payload.socket;
-            state.connected = action.payload.connected;
+        receiveNotification: (state, action) => {
+            state.notifications.push(action.payload);
+        },
+        receiveAdminMessage: (state, action) => {
+            state.messages.push(action.payload);
         },
     },
 
@@ -39,5 +50,5 @@ const socketSlice = createSlice({
     },
 });
 
-export const { disconnectSocket, sendMessage } = socketSlice.actions;
+export const { disconnectSocket, sendMessage, receiveNotification } = socketSlice.actions;
 export default socketSlice.reducer;

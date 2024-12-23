@@ -2,47 +2,74 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import classNames from 'classnames';
 
 import { Label } from '~/components/ui-aceternity/SignInForm/label.jsx';
 import { Input } from '~/components/ui-aceternity/SignInForm/input.jsx';
-import { cn } from '~/utils/utils.js';
-import { useDispatch } from 'react-redux';
-import { loginUser } from '~/features/user/userThunk.js';
+import { cn, parseValidationErrors } from '~/utils/utils.js';
+import config from '~/config/index.js';
+import { register } from '~/services/authService.js';
+import { login } from '~/features/user/userSlice.js';
 
 export default function RegisterForm({ className }) {
+    const [validators, setValidators] = useState({});
     const [fullName, setFullName] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [mail, setMail] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleUsernameOnChange = (e) => {
+        setValidators((pre) => ({ ...pre, username: null }));
         setUsername(e.target.value);
     };
     const handlePasswordOnChange = (e) => {
+        setValidators((pre) => ({ ...pre, password: null }));
         setPassword(e.target.value);
     };
 
     const handleFullNameOnChange = (e) => {
+        setValidators((pre) => ({ ...pre, fullName: null }));
         setFullName(e.target.value);
     };
 
-    const handleMailOnChange = (e) => {
-        setMail(e.target.value);
+    const handleEmailOnChange = (e) => {
+        setValidators((pre) => ({ ...pre, email: null }));
+        setEmail(e.target.value);
     };
 
     const handleConFirmPasswordOnChange = (e) => {
+        setValidators((pre) => ({ ...pre, confirmPassword: null }));
         setConfirmPassword(e.target.value);
+    };
+
+    const handlePhoneOnChange = (e) => {
+        setValidators((pre) => ({ ...pre, phone: null }));
+        setPhone(e.target.value);
     };
 
     const handleAsync = async () => {
         try {
-            const credentials = { username, password };
-            const user = await dispatch(loginUser(credentials)).unwrap();
-            navigate('/home');
+            const userData = {
+                username,
+                password,
+                confirmPassword,
+                email,
+                phone,
+                fullName,
+            };
+
+            register(userData)
+                .then((user) => {
+                    dispatch(login(user));
+                    navigate(config.routes.home);
+                })
+                .catch((err) => setValidators(parseValidationErrors(err)));
         } catch (e) {
             console.log(e);
         }
@@ -50,121 +77,134 @@ export default function RegisterForm({ className }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setValidators({});
         await handleAsync();
     };
 
     return (
-        <div
-            className={cn(
-                'w-full min-w-96 max-w-md rounded-2xl bg-white p-8 opacity-85 shadow-input dark:bg-black',
-                className,
-            )}
-        >
-            <h2 className="text-xl font-bold text-neutral-800 dark:text-neutral-200">Welcome to ForestCineplex🌳</h2>
-            <p className="mt-2 max-w-sm text-sm text-neutral-600 dark:text-neutral-300">
-                New here? Sign up to get started!
-            </p>
-            <form className="my-8" onSubmit={handleSubmit}>
-                <LabelInputContainer className="mb-4">
-                    <Label htmlFor="fullname" className="mb-1">
-                        Fullname
-                    </Label>
-                    <Input
-                        id="fullname"
-                        value={fullName}
-                        placeholder="Enter your name"
-                        type="text"
-                        onChange={handleFullNameOnChange}
-                    />
-                </LabelInputContainer>
+        <div className={'flex h-full w-full items-center justify-center'}>
+            <div className={cn('w-[400px] rounded-2xl bg-white p-8 opacity-85 shadow-input dark:bg-black', className)}>
+                <h2 className="text-xl font-bold text-neutral-800 dark:text-neutral-200">
+                    Welcome to ForestCineplex🌳
+                </h2>
+                <p className="mt-2 max-w-sm text-sm text-neutral-600 dark:text-neutral-300">
+                    New here? Sign up to get started!
+                </p>
+                <form className="my-8" onSubmit={handleSubmit}>
+                    <LabelInputContainer className="mb-4">
+                        <Label
+                            htmlFor="fullname"
+                            className={classNames('mb-1', { '!text-red-500': validators.fullName })}
+                        >
+                            FullName
+                        </Label>
+                        <Input
+                            id="fullname"
+                            value={fullName}
+                            placeholder="Enter your name"
+                            type="text"
+                            onChange={handleFullNameOnChange}
+                        />
+                        <em className={'text-[10px] text-white'}>{validators.fullName}</em>
+                    </LabelInputContainer>
 
-                <LabelInputContainer className="mb-4">
-                    <Label htmlFor="username" className="mb-1">
-                        Username
-                    </Label>
-                    <Input
-                        id="username"
-                        value={username}
-                        placeholder="Enter your username"
-                        type="text"
-                        onChange={handleUsernameOnChange}
-                    />
-                </LabelInputContainer>
+                    <LabelInputContainer className="mb-4">
+                        <Label
+                            htmlFor="username"
+                            className={classNames('mb-1', { '!text-red-500': validators.username })}
+                        >
+                            Username
+                        </Label>
+                        <Input
+                            id="username"
+                            value={username}
+                            placeholder="Enter your username"
+                            type="text"
+                            onChange={handleUsernameOnChange}
+                        />
+                        <em className={'text-[10px] text-white'}>{validators.username}</em>
+                    </LabelInputContainer>
 
-                <LabelInputContainer className="mb-4">
-                    <Label htmlFor="mail" className="mb-1">
-                        Mail
-                    </Label>
-                    <Input
-                        id="mail"
-                        value={mail}
-                        placeholder="Enter your mail"
-                        type="text"
-                        onChange={handleMailOnChange}
-                    />
-                </LabelInputContainer>
+                    <LabelInputContainer className="mb-4">
+                        <Label htmlFor="email" className={classNames('mb-1', { '!text-red-500': validators.email })}>
+                            Email
+                        </Label>
+                        <Input
+                            id="email"
+                            value={email}
+                            placeholder="Enter your mail"
+                            type="text"
+                            onChange={handleEmailOnChange}
+                        />
+                        <em className={'text-[10px] text-white'}>{validators.email}</em>
+                    </LabelInputContainer>
 
-                <LabelInputContainer className="mb-4">
-                    <Label htmlFor="password" className="mb-1">
-                        Password
-                    </Label>
-                    <Input
-                        id="password"
-                        value={password}
-                        onChange={handlePasswordOnChange}
-                        placeholder="••••••••"
-                        type="password"
-                    />
-                </LabelInputContainer>
+                    <LabelInputContainer className="mb-4">
+                        <Label htmlFor="phone" className={classNames('mb-1', { '!text-red-500': validators.phone })}>
+                            Phone
+                        </Label>
+                        <Input
+                            id="phone"
+                            value={phone}
+                            placeholder="Enter your phone"
+                            type="text"
+                            onChange={handlePhoneOnChange}
+                        />
+                        <em className={'text-[10px] text-white'}>{validators.phone}</em>
+                    </LabelInputContainer>
 
-                <LabelInputContainer className="mb-16">
-                    <Label htmlFor="confirmPassword" className="mb-1">
-                        Confirm password
-                    </Label>
-                    <Input
-                        id="confirmPassword"
-                        value={confirmPassword}
-                        onChange={handleConFirmPasswordOnChange}
-                        placeholder="••••••••"
-                        type="password"
-                    />
-                </LabelInputContainer>
+                    <LabelInputContainer className="mb-4">
+                        <Label
+                            htmlFor="password"
+                            className={classNames('mb-1', { '!text-red-500': validators.password })}
+                        >
+                            Password
+                        </Label>
+                        <Input
+                            id="password"
+                            value={password}
+                            onChange={handlePasswordOnChange}
+                            placeholder="••••••••"
+                            type="password"
+                        />
+                        <em className={'text-[10px] text-white'}>{validators.password}</em>
+                    </LabelInputContainer>
 
-                <button
-                    className="group/btn relative mb-6 block h-10 w-full rounded-md bg-green-700 font-medium text-white transition-all duration-300 ease-in-out hover:bg-green-800"
-                    type="submit"
-                >
-                    Sign In &rarr;
-                    <BottomGradient />
-                </button>
+                    <LabelInputContainer className="mb-8">
+                        <Label
+                            htmlFor="confirmPassword"
+                            className={classNames('mb-1', { '!text-red-500': validators.confirmPassword })}
+                        >
+                            Confirm password
+                        </Label>
+                        <Input
+                            id="confirmPassword"
+                            value={confirmPassword}
+                            onChange={handleConFirmPasswordOnChange}
+                            placeholder="••••••••"
+                            type="password"
+                        />
+                        <em className={'text-[10px] text-white'}>{validators.confirmPassword}</em>
+                    </LabelInputContainer>
 
-                {/*<div className="mb-6 flex justify-center">*/}
-                {/*    <Link to="/forgot-password" className="text-center text-white hover:text-gray-400 hover:underline">*/}
-                {/*        Forgot password?*/}
-                {/*    </Link>*/}
-                {/*</div>*/}
+                    <button
+                        className="group/btn relative mb-6 block h-10 w-full rounded-md bg-green-700 font-medium text-white transition-all duration-300 ease-in-out hover:bg-green-800"
+                        type="submit"
+                    >
+                        Sign In &rarr;
+                        <BottomGradient />
+                    </button>
 
-                {/*<div className="text-[#8c8c8c]">*/}
-                {/*    <p>*/}
-                {/*        New to Netflix?{' '}*/}
-                {/*        <Link to="/register" className="font-bold text-white">*/}
-                {/*            Sign up now.*/}
-                {/*        </Link>{' '}*/}
-                {/*    </p>*/}
-                {/*</div>*/}
-
-                {/*<div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />*/}
-
-                {/*<div className="flex flex-col space-y-4">*/}
-                {/*    <button*/}
-                {/*        className="group/btn shadow-input relative flex h-10 w-full items-center justify-start space-x-2 rounded-md bg-gray-50 px-4 font-medium text-black dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"*/}
-                {/*        type="submit"*/}
-                {/*    >*/}
-                {/*        <span className="text-sm text-neutral-700 dark:text-neutral-300">GitHub</span>*/}
-                {/*        <BottomGradient />*/}
-                {/*    </button>*/}
-                {/*</div>*/}
-            </form>
+                    <div className="mb-6 flex justify-center">
+                        <Link
+                            to={config.routes.login}
+                            className="text-center text-white hover:text-gray-400 hover:underline"
+                        >
+                            Already have an account? Log in here
+                        </Link>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }

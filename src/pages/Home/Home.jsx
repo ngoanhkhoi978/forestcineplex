@@ -6,7 +6,7 @@ import MovieCategory from '~/components/MovieCategory/MovieCategory.jsx';
 import { useEffect, useState } from 'react';
 import { fetchGenres } from '~/services/genresService.js';
 import { fetchRandomMovie } from '~/services/movieService.js';
-import { MovieCard } from '~/components/ui-aceternity/MovieCard/MovieCard.jsx';
+import { MovieCard } from '~/components/MovieCard/MovieCard.jsx';
 import { BackgroundBeams } from '~/components/ui-aceternity/BackgroundBeams/BackgroundBeams.jsx';
 
 function Home() {

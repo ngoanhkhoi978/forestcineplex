@@ -10,7 +10,7 @@ import {
     unlikeComment,
     unReportComment,
 } from '~/services/commentService.js';
-import { formatTime } from '~/utils/utils.js';
+import { formatTime, getAvatarSrc } from '~/utils/utils.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserId } from '~/features/user/userSelectors.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -41,8 +41,6 @@ function Comment({ episodeId }) {
             });
         }
     };
-
-    console.log(comments);
 
     return (
         <section className="bg-transparent py-8 antialiased">
@@ -150,7 +148,11 @@ const RowComment = ({ comment = {}, handleDelete }) => {
                             '!text-white': userId === comment.userId._id,
                         })}
                     >
-                        <img className="mr-2 size-8 rounded-md" src={images.avatar} alt="Bonnie Green" />
+                        <img
+                            className="mr-2 size-8 rounded-md"
+                            src={comment.userId.avatar ? getAvatarSrc(comment.userId.avatar) : images.avatar}
+                            alt="Bonnie Green"
+                        />
                         {comment?.userId?.fullName}
                     </p>
                     <span className="me-2 rounded bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900 dark:text-green-300">

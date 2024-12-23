@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { MovieCard } from '~/components/ui-aceternity/MovieCard/MovieCard.jsx';
+import { MovieCard } from '~/components/MovieCard/MovieCard.jsx';
 import { getUserFavouriteMovies } from '~/features/favorites/favouriteThunk.js';
 
 function MyList() {
@@ -23,7 +23,7 @@ function MyList() {
                 {favoriteMovies &&
                     favoriteMovies.map((favourite) => (
                         <MovieCard
-                            className="col-span-6 md:col-span-4 lg:col-span-2"
+                            className="col-span-6 md:col-span-4 xl:col-span-2"
                             key={favourite._id}
                             movie={favourite.movieId}
                         />

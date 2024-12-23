@@ -1,14 +1,16 @@
-import Search from '~/layouts/user/DefaultLayout/Header/Search/Search.jsx';
+import Search from '~/layouts/DefaultLayout/Header/Search/Search.jsx';
 import classNames from 'classnames';
-import Navigation from '~/layouts/user/DefaultLayout/Header/Navigation/Navigation.jsx';
+import Navigation from '~/layouts/DefaultLayout/Header/Navigation/Navigation.jsx';
 import Brand from '~/layouts/components/Brand/Brand.jsx';
 import useScroll from '~/hooks/useScroll.js';
 import BTNLanguage from '~/components/BTNLanguage/BTNLanguage.jsx';
-import AccountMenu from '~/layouts/user/DefaultLayout/Header/AccountMenu/AccountMenu.jsx';
+import Avatar from '~/layouts/DefaultLayout/Header/AvatarMenu/Avatar/Avatar.jsx';
 
 import Tippy from '@tippyjs/react/headless';
 import 'tippy.js/dist/tippy.css';
-import Menu from '~/layouts/user/DefaultLayout/Header/Menu/Menu.jsx';
+import Menu from '~/layouts/DefaultLayout/Header/AvatarMenu/Menu/Menu.jsx';
+import Notifications from '~/layouts/DefaultLayout/Header/Notifications/Notifications.jsx';
+import AvatarMenu from '~/layouts/DefaultLayout/Header/AvatarMenu/AvatarMenu.jsx';
 
 function Header() {
     const isScroll = useScroll(300);
@@ -26,21 +28,11 @@ function Header() {
                     <Brand />
                     <Navigation />
                 </div>
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-6">
                     <Search />
-                    <Tippy
-                        render={(attrs) => <Menu {...attrs} />}
-                        placement="bottom-start"
-                        delay={[0, 100]}
-                        interactive
-                        offset={[0, 26]}
-                        arrow={true}
-                        // hideOnClick={true}
-                    >
-                        <div>
-                            <AccountMenu />
-                        </div>
-                    </Tippy>
+                    <Notifications />
+
+                    <AvatarMenu />
                 </div>
             </div>
         </header>

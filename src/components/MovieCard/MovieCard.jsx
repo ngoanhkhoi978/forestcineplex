@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMultiply, faPlay, faPlus } from '@fortawesome/free-solid-svg-icons';
 import VideoJS from '~/components/VideoPlayer/VideoJS.jsx';
 import { getFullMediaUrl } from '~/services/movieService.js';
+import SaveMovieButton from '~/components/SaveMovieButton/SaveMovieButton.jsx';
 
 export function MovieCard({ className, movie }) {
     const [active, setActive] = useState(null);
@@ -120,12 +121,17 @@ export function MovieCard({ className, movie }) {
                                         <p className="mb-3 text-sm text-neutral-600 dark:text-neutral-400">
                                             {`${formatDate(movie.releaseDate)} ${movie.episodes.length} Episodes`}
                                         </p>
-                                        <motion.h3
-                                            layoutId={`title-${active.title}-${id}`}
-                                            className="text-4xl font-medium text-neutral-700 dark:text-neutral-200"
-                                        >
-                                            {active.title}
-                                        </motion.h3>
+                                        <div className={'flex w-full items-center justify-between space-x-6'}>
+                                            <motion.h3
+                                                layoutId={`title-${active.title}-${id}`}
+                                                className="text-4xl font-medium text-neutral-700 dark:text-neutral-200"
+                                            >
+                                                {active.title}
+                                            </motion.h3>
+                                            <div>
+                                                <SaveMovieButton movie={movie} className={'text-3xl text-white'} />
+                                            </div>
+                                        </div>
                                         <p className="text-base text-neutral-600 dark:text-neutral-400">
                                             {active.genres.map((genre) => {
                                                 return (

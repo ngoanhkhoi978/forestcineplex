@@ -10,14 +10,16 @@ import { selectUserId } from '~/features/user/userSelectors.js';
 
 import {
     addFavouriteMovie as addFavouriteMovieAPI,
-    removeFavouriteMovie as removeFavoriteMovieAPI,
-} from '~/services/favouriteService.js';
+    deleteFavouriteMovie as removeFavoriteMovieAPI,
+} from '~/services/meService.js';
+import { useToast } from '~/providers/ToastProvider.jsx';
 
 function SaveMovieButton({ className = 'text-xl lg:text-2xl 2xl:text-3xl leading-none', movie }) {
     const [isSave, setIsSave] = useState(false);
     const userId = useSelector(selectUserId);
     const { favoriteMovies } = useSelector((state) => state.favourites);
     const dispatch = useDispatch();
+    const { showToast } = useToast();
 
     useEffect(() => {
         if (favoriteMovies) {
@@ -25,24 +27,26 @@ function SaveMovieButton({ className = 'text-xl lg:text-2xl 2xl:text-3xl leading
         }
     }, [movie]);
 
-    useEffect(() => {
-        const isCurrentSave = favoriteMovies?.some((favourite) => favourite.movieId._id === movie._id);
-        if (isSave && !isCurrentSave) {
-            dispatch(
-                addFavoriteMovie({
-                    movieId: movie,
-                    userId: userId,
-                }),
-            );
-            addFavouriteMovieAPI(userId, movie._id).then();
-        } else if (!isSave && isCurrentSave) {
-            dispatch(deleteFavoriteMovie(movie._id));
-            removeFavoriteMovieAPI(userId, movie._id).then();
+    const handleOnClick = () => {
+        const currentSave = !isSave;
+        if (currentSave) {
+            addFavouriteMovieAPI(movie._id).then((favourite) => {
+                console.log(favourite);
+                dispatch(addFavoriteMovie(favourite));
+                showToast('Movie saved successfully.', 'success', 3000);
+            });
+            setIsSave(true);
+        } else {
+            removeFavoriteMovieAPI(movie._id).then((favourite) => {
+                dispatch(deleteFavoriteMovie(movie._id));
+                setIsSave(false);
+                showToast('Movie save successfully cancelled.', 'warning', 3000);
+            });
         }
-    }, [isSave]);
+    };
 
     return (
-        <div className={classNames(className)} onClick={() => setIsSave(!isSave)}>
+        <div className={classNames(className)} onClick={handleOnClick}>
             {isSave ? (
                 <FontAwesomeIcon className={''} icon={faBookmark} />
             ) : (

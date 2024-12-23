@@ -5,12 +5,17 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { Label } from '~/components/ui-aceternity/SignInForm/label.jsx';
 import { Input } from '~/components/ui-aceternity/SignInForm/input.jsx';
-import { cn } from '~/utils/utils.js';
+import { cn, parseValidationErrors } from '~/utils/utils.js';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '~/features/user/userThunk.js';
 import { getUserFavouriteMovies } from '~/features/favorites/favouriteThunk.js';
+import { login as loginAPI } from '~/services/authService.js';
+import { login } from '~/features/user/userSlice.js';
+import config from '~/config/index.js';
+import classNames from 'classnames';
 
 export default function SignInForm({ className }) {
+    const [validators, setValidators] = useState({});
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -18,40 +23,23 @@ export default function SignInForm({ className }) {
     const navigate = useNavigate();
 
     const handleUsernameOnChange = (e) => {
+        setValidators((pre) => ({ ...pre, username: null }));
         setUsername(e.target.value);
     };
     const handlePasswordOnChange = (e) => {
+        setValidators((pre) => ({ ...pre, password: null }));
         setPassword(e.target.value);
     };
 
     const handleAsync = async () => {
         try {
             const credentials = { username, password };
-
-            const user = await dispatch(loginUser(credentials)).unwrap();
-
-            if (user) {
-                await dispatch(getUserFavouriteMovies(user._id));
-            }
-
-            dispatch({
-                type: 'websocket/sendMessage',
-                payload: {
-                    from: 'client',
-                    type: 'userLogin',
-                    userId: user._id,
-                },
-            });
-
-            console.log({
-                type: 'websocket/sendMessage',
-                payload: {
-                    from: 'client',
-                    type: 'userLogin',
-                    userId: user._id,
-                },
-            });
-            navigate('/home');
+            loginAPI(credentials)
+                .then((user) => {
+                    dispatch(login(user));
+                    navigate(config.routes.home);
+                })
+                .catch((err) => setValidators(parseValidationErrors(err)));
         } catch (e) {
             console.log(e);
         }
@@ -59,79 +47,81 @@ export default function SignInForm({ className }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setValidators({});
         await handleAsync();
     };
 
     return (
-        <div
-            className={cn('w-full max-w-md rounded-2xl bg-white p-8 opacity-85 shadow-input dark:bg-black', className)}
-        >
-            <h2 className="text-xl font-bold text-neutral-800 dark:text-neutral-200">Welcome to ForestCineplex🌳</h2>
-            <p className="mt-2 max-w-sm text-sm text-neutral-600 dark:text-neutral-300">
-                Welcome back! Please log in to continue.
-            </p>
-            <form className="my-8 min-w-96" onSubmit={handleSubmit}>
-                <LabelInputContainer className="mb-8">
-                    <Label htmlFor="username" className="mb-3">
-                        Username
-                    </Label>
-                    <Input
-                        id="username"
-                        value={username}
-                        placeholder="Username or email"
-                        type="text"
-                        onChange={handleUsernameOnChange}
-                    />
-                </LabelInputContainer>
+        <div className={'flex h-full w-full items-center justify-center'}>
+            <div className={cn('w-[400px] rounded-2xl bg-white p-8 opacity-85 shadow-input dark:bg-black', className)}>
+                <h2 className="text-xl font-bold text-neutral-800 dark:text-neutral-200">
+                    Welcome to ForestCineplex🌳
+                </h2>
+                <p className="mt-2 max-w-sm text-sm text-neutral-600 dark:text-neutral-300">
+                    Welcome back! Please log in to continue.
+                </p>
+                <form className="my-8" onSubmit={handleSubmit}>
+                    <LabelInputContainer className="mb-8">
+                        <Label
+                            htmlFor="username"
+                            className={classNames('mb-1', { '!text-red-500': validators.username })}
+                        >
+                            Username
+                        </Label>
+                        <Input
+                            id="username"
+                            value={username}
+                            placeholder="Username or email"
+                            type="text"
+                            onChange={handleUsernameOnChange}
+                        />
+                        <em className={'text-[10px] text-white'}>{validators.username}</em>
+                    </LabelInputContainer>
 
-                <LabelInputContainer className="mb-16">
-                    <Label htmlFor="password " className="mb-3">
-                        Password
-                    </Label>
-                    <Input
-                        id="password"
-                        value={password}
-                        onChange={handlePasswordOnChange}
-                        placeholder="••••••••"
-                        type="password"
-                    />
-                </LabelInputContainer>
+                    <LabelInputContainer className="mb-8">
+                        <Label
+                            htmlFor="password "
+                            className={classNames('mb-1', { '!text-red-500': validators.password })}
+                        >
+                            Password
+                        </Label>
+                        <Input
+                            id="password"
+                            value={password}
+                            onChange={handlePasswordOnChange}
+                            placeholder="••••••••"
+                            type="password"
+                        />
+                        <em className={'text-[10px] text-white'}>{validators.password}</em>
+                    </LabelInputContainer>
 
-                <button
-                    className="group/btn relative mb-6 block h-10 w-full rounded-md bg-green-700 font-medium text-white transition-all duration-300 ease-in-out hover:bg-green-800"
-                    type="submit"
-                >
-                    Sign In &rarr;
-                    <BottomGradient />
-                </button>
+                    <button
+                        className="group/btn relative mb-6 block h-10 w-full rounded-md bg-green-700 font-medium text-white transition-all duration-300 ease-in-out hover:bg-green-800"
+                        type="submit"
+                    >
+                        Sign In &rarr;
+                        <BottomGradient />
+                    </button>
 
-                <div className="mb-6 flex justify-center">
-                    <Link to="/forgot-password" className="text-center text-white hover:text-gray-400 hover:underline">
-                        Forgot password?
-                    </Link>
-                </div>
+                    <div className="mb-6 flex justify-center">
+                        <Link
+                            to={config.routes.forgotPassword}
+                            className="text-center text-white hover:text-gray-400 hover:underline"
+                        >
+                            Forgot password?
+                        </Link>
+                    </div>
 
-                <div className="text-[#8c8c8c]">
-                    <p>
-                        New to Netflix?{' '}
-                        <Link to="/register" className="font-bold text-white">
-                            Sign up now.
-                        </Link>{' '}
-                    </p>
-                </div>
-
-                {/*<div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />*/}
-
-                {/*<div className="flex flex-col space-y-4">*/}
-                {/*    <button*/}
-                {/*        className="group/btn shadow-input relative flex h-10 w-full items-center justify-start space-x-2 rounded-md bg-gray-50 px-4 font-medium text-black dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"*/}
-                {/*        type="submit"*/}
-                {/*    >*/}
-                {/*        <span className="text-sm text-neutral-700 dark:text-neutral-300">GitHub</span>*/}
-                {/*        <BottomGradient />*/}
-                {/*    </button>*/}
-                {/*</div>*/}
-            </form>
+                    <div className="text-[#8c8c8c]">
+                        <p>
+                            New to Netflix?{' '}
+                            <Link to={config.routes.register} className="font-bold text-white">
+                                Sign up now.
+                            </Link>{' '}
+                        </p>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }

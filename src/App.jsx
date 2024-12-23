@@ -13,23 +13,34 @@ function App() {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
 
-    const isConnectedSocket = useSelector((state) => state.socket.connected);
+    const { connected, hasSetRole, socket } = useSelector((state) => state.socket);
     const user = useSelector(selectUser);
 
     useEffect(() => {
         if (user) {
-            if (isConnectedSocket) {
-                dispatch(
-                    sendMessage({
-                        type: 'setRole',
-                        message: '',
-                    }),
-                );
+            if (connected) {
+                if (!hasSetRole) {
+                    dispatch(
+                        sendMessage({
+                            type: 'setRole',
+                            message: '',
+                        }),
+                    );
+                }
+
+                socket.on('connect', () => {
+                    dispatch(
+                        sendMessage({
+                            type: 'setRole',
+                            message: '',
+                        }),
+                    );
+                });
             }
 
             dispatch(getUserFavouriteMovies(user._id));
         }
-    }, [isConnectedSocket, user]);
+    }, [connected, user]);
 
     useEffect(() => {
         dispatch(verifyTokenUser());
